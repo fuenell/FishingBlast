@@ -1,22 +1,29 @@
-
-using UnityEngine;
+using AppScope.Core;
+using Cysharp.Threading.Tasks;
 using VContainer.Unity;
 
-internal class TitleFlowController : IStartable
+namespace Scene.Title
 {
-    private SceneLoader _sceneLoader;
-
-    public TitleFlowController(SceneLoader sceneLoader)
+    public class TitleFlowController
     {
-        _sceneLoader = sceneLoader;
+        private SceneLoader _sceneLoader;
 
-        Debug.Log(this.GetType().Name);
-    }
+        private bool _isNavigating = false;
 
-    public void Start()
-    {
-        Debug.Log(this.GetType().Name + "s");
+        public TitleFlowController(SceneLoader sceneLoader)
+        {
+            _sceneLoader = sceneLoader;
+        }
 
-        _sceneLoader.Load("");
+        public async UniTaskVoid OnClickStartButton()
+        {
+            if (_isNavigating)
+            {
+                return;
+            }
+            _isNavigating = true;
+
+            await _sceneLoader.LoadSceneAsync("Play");
+        }
     }
 }

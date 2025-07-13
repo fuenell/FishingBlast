@@ -1,11 +1,13 @@
 using VContainer.Unity;
 using VContainer;
 
-public class TitleLifetimeScope : LifetimeScope
+namespace Scene.Title
 {
-    protected override void Configure(IContainerBuilder builder)
+    public class TitleLifetimeScope : LifetimeScope
     {
-        builder.RegisterEntryPoint<TitleFlowController>();
-        // 타이틀 관련 서비스
+        protected override void Configure(IContainerBuilder builder)
+        {
+            builder.Register<TitleFlowController>(Lifetime.Scoped);
+        }
     }
 }
