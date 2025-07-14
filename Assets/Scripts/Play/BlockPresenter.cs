@@ -8,20 +8,20 @@ namespace Scene.Play
     /// </summary>
     public class BlockPresenter : MonoBehaviour
     {
-        [SerializeField] private Transform[] blockSlots; // 3개 슬롯 위치
-        [SerializeField] private GameObject blockPrefab;
+        [SerializeField] private Transform[] _blockSlots; // 3개 슬롯 위치
+        [SerializeField] private GameObject _blockViewPrefab;
 
         private int placedCount = 0;
 
         public bool AreAllBlocksPlaced => placedCount >= 3;
 
-        public void ShowBlocks(List<BlockModel> blocks)
+        public void CreateAndShowBlocks(List<BlockModel> blocks)
         {
             placedCount = 0;
 
-            for (int i = 0; i < blocks.Count && i < blockSlots.Length; i++)
+            for (int i = 0; i < blocks.Count && i < _blockSlots.Length; i++)
             {
-                var blockGO = Instantiate(blockPrefab, blockSlots[i]);
+                var blockGO = Instantiate(_blockViewPrefab, _blockSlots[i]);
                 var blockView = blockGO.GetComponent<BlockView>();
                 blockView.SetModel(blocks[i]);
                 blockView.OnPlaced += OnBlockPlaced;

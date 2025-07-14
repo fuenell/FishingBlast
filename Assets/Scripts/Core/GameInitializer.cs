@@ -1,5 +1,4 @@
 using UnityEngine;
-using VContainer.Unity;
 
 namespace AppScope.Core
 {
@@ -18,6 +17,8 @@ namespace AppScope.Core
 
         public async void Init()
         {
+            Application.targetFrameRate = 60;
+
             await _adsManager.InitializeAsync();
 
             Debug.Log("GameInitializer 초기화 완료");

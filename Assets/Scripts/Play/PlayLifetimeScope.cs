@@ -10,10 +10,10 @@ namespace Scene.Play
 
         protected override void Configure(IContainerBuilder builder)
         {
-            builder.RegisterInstance(blockPresenter); // 씬 오브젝트
-            builder.Register<BlockGenerator>(Lifetime.Singleton);
-            builder.Register<BlockBoard>(Lifetime.Singleton);
-            builder.RegisterEntryPoint<PlayFlowController>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.RegisterInstance<BlockPresenter>(blockPresenter); // 씬 오브젝트
+            builder.Register<BlockGenerator>(Lifetime.Scoped);
+            builder.Register<BlockBoard>(Lifetime.Scoped);
+            builder.RegisterEntryPoint<PlayFlowController>(Lifetime.Scoped);
         }
     }
 }
