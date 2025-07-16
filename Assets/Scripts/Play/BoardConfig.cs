@@ -1,0 +1,8 @@
+namespace Scene.Play
+{
+    public class BoardConfig
+    {
+        public const int Width = 8;
+        public const int Height = 8;
+    }
+}

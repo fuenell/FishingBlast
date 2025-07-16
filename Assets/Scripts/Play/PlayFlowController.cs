@@ -1,5 +1,6 @@
 using AppScope.Core;
 using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
 using UnityEngine;
 using VContainer.Unity;
 
@@ -8,16 +9,18 @@ namespace Scene.Play
     public class PlayFlowController : IStartable
     {
         private readonly AdsManager _adsManager;
-        private readonly BlockPresenter _blockPresenter;
+        private readonly BlockQueuePresenter _blockQueuePresenter;
         private readonly BlockGenerator _blockGenerator;
         private readonly BlockBoard _blockBoard;
+        private readonly BlockDragController _blockDragController;
 
-        public PlayFlowController(AdsManager adsManager, BlockPresenter blockPresenter, BlockGenerator blockGenerator, BlockBoard blockBoard)
+        public PlayFlowController(AdsManager adsManager, BlockQueuePresenter blockQueuePresenter, BlockGenerator blockGenerator, BlockBoard blockBoard, BlockDragController blockDragController)
         {
             _adsManager = adsManager;
-            _blockPresenter = blockPresenter;
+            _blockQueuePresenter = blockQueuePresenter;
             _blockGenerator = blockGenerator;
             _blockBoard = blockBoard;
+            _blockDragController = blockDragController;
         }
 
         public void Start()
@@ -27,22 +30,47 @@ namespace Scene.Play
 
         private async UniTaskVoid StartGameLoop()
         {
-            _adsManager.LoadBannerAd();
+            _adsManager.LoadBannerAd(); // 게임 시작 시 배너 광고 로드
 
             while (true)
             {
-                var blocks = _blockGenerator.GenerateNextBlocks();
-                _blockPresenter.CreateAndShowBlocks(blocks);
+                List<BlockModel> blocks = _blockGenerator.GenerateNextBlocks();
+                _blockQueuePresenter.CreateAndShowBlocks(blocks);
 
-                await UniTask.WaitUntil(() => _blockPresenter.AreAllBlocksPlaced); // 유저가 모든 블럭을 배치할 때까지 대기
-
-                _blockBoard.CheckMatches(); // 줄이 완성되었는지 검사
-
-                if (_blockBoard.IsGameOver(blocks))
+                while (_blockQueuePresenter.AreAllBlocksPlaced == false)
                 {
-                    Debug.Log("Game Over");
-                    break;
+                    //// Todo: 불가능 시 패배 처리
+                    if (_blockBoard.IsGameOver(_blockQueuePresenter.RemainBlockList))
+                    {
+                        Debug.Log("Game Over");
+                        break;
+                    }
+
+                    BlockModel placedBlock = await _blockDragController.DragBlock();
+
+                    if (placedBlock != null)
+                    {
+                        _blockQueuePresenter.RemoveBlock(placedBlock);
+                    }
+
+                    // Todo: 블럭 배치 점수 추가
+
+
+                    // Todo: 매치 성공 블럭 삭제 및 삭제 연출
+                    //// 로직 처리
+                    //var matchedLines = _blockBoard.CheckMatches(); // 리턴값으로 삭제할 셀 위치들
+                    //_blockBoard.ClearLines(matchedLines);
+
+                    //// 뷰 처리
+                    //_blockBoardView.ClearLines(matchedLines); // 이펙트 및 오브젝트 삭제
+
+
+                    // Todo: 점수 지급
+
+
+                    // Todo: 점수에 따른 물고기 획득 연출
                 }
+
 
                 await UniTask.Delay(500); // 잠깐 대기 후 다음 루프
             }

@@ -8,7 +8,7 @@ namespace Scene.Play
     /// </summary>
     public class BlockBoard
     {
-        private int[,] grid = new int[8, 8];
+        private int[,] grid = new int[BoardConfig.Width, BoardConfig.Height];
 
         public void PlaceBlock(BlockModel model, Vector2Int position)
         {
@@ -103,6 +103,11 @@ namespace Scene.Play
         public int[,] GetGrid()
         {
             return grid;
+        }
+
+        internal bool CanPlaceBlock(BlockModel draggingBlock, Vector2Int cellPos)
+        {
+            return false;
         }
     }
 }

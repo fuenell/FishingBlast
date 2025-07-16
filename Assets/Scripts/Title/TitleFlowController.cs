@@ -1,10 +1,11 @@
 using AppScope.Core;
 using Cysharp.Threading.Tasks;
-using VContainer.Unity;
+using System;
+using UnityEngine;
 
 namespace Scene.Title
 {
-    public class TitleFlowController
+    public class TitleFlowController : IDisposable
     {
         private SceneLoader _sceneLoader;
 
@@ -13,6 +14,11 @@ namespace Scene.Title
         public TitleFlowController(SceneLoader sceneLoader)
         {
             _sceneLoader = sceneLoader;
+        }
+
+        public void Dispose()
+        {
+            Debug.Log("TitleFlowController 삭제됨");
         }
 
         public async UniTaskVoid OnClickStartButton()
