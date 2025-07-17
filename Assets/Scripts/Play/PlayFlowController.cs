@@ -8,6 +8,7 @@ namespace Scene.Play
 {
     public class PlayFlowController : IStartable
     {
+        private readonly SceneLoader _sceneLoader;
         private readonly AdsManager _adsManager;
         private readonly BlockQueuePresenter _blockQueuePresenter;
         private readonly BlockGenerator _blockGenerator;
@@ -15,8 +16,9 @@ namespace Scene.Play
         private readonly BlockBoardView _blockBoardView;
         private readonly BlockDragController _blockDragController;
 
-        public PlayFlowController(AdsManager adsManager, BlockQueuePresenter blockQueuePresenter, BlockGenerator blockGenerator, BlockBoard blockBoard, BlockBoardView blockBoardView, BlockDragController blockDragController)
+        public PlayFlowController(SceneLoader sceneLoader, AdsManager adsManager, BlockQueuePresenter blockQueuePresenter, BlockGenerator blockGenerator, BlockBoard blockBoard, BlockBoardView blockBoardView, BlockDragController blockDragController)
         {
+            _sceneLoader = sceneLoader;
             _adsManager = adsManager;
             _blockQueuePresenter = blockQueuePresenter;
             _blockGenerator = blockGenerator;
@@ -81,7 +83,16 @@ namespace Scene.Play
                 await UniTask.Delay(500); // 잠깐 대기 후 다음 루프
             }
 
+            // Todo: 게임 오버 연출
+
+            await UniTask.Delay(500); // 잠깐 대기
+
             Debug.Log("Game End");
+            _adsManager.DestroyBannerAd(); // 게임 종료 시 배너 광고 제거
+
+            // Todo: 게임 오버 후 광고 보여주기
+
+            _sceneLoader.LoadSceneAsync("Title").Forget();
         }
     }
 }
