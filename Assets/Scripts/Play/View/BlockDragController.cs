@@ -10,6 +10,7 @@ namespace Scene.Play
         [SerializeField] private Camera _camera;
         [SerializeField] private BlockPlacementPreview _placementPreview;
 
+        private Vector3 _blockToutchOffset = new Vector3(0, 3, 0);
         private BlockBoard _blockBoard;
         private BlockBoardView _blockBoardView;
         private BlockView _draggingBlock;
@@ -33,10 +34,8 @@ namespace Scene.Play
             {
                 await UniTask.Yield();
 
-                if (IsPress())
+                if (IsPress(out Vector2 screenPosition))
                 {
-                    // 안전하게 마우스 입력 처리
-                    Vector2 screenPosition = Mouse.current.position.ReadValue();
                     Ray ray = _camera.ScreenPointToRay(screenPosition);
                     RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity, LayerMask.GetMask("BlockView"));
                     if (hit.collider != null)
@@ -46,18 +45,16 @@ namespace Scene.Play
                         {
                             _draggingBlock = blockView;
                             _draggingBlock.StartDrag();
-                            //offset = _draggingBlock.transform.position - ray.origin;
-                            offset = new Vector3(0, 3, 0);
+                            offset = _blockToutchOffset;
                         }
                     }
                 }
             }
 
             // 2. 드래그 중 마우스 따라가기
-            while (IsPress())
+            while (IsPress(out Vector2 pressScreenPosition))
             {
-                Vector2 screenPosition = Mouse.current.position.ReadValue();
-                Ray ray = _camera.ScreenPointToRay(screenPosition);
+                Ray ray = _camera.ScreenPointToRay(pressScreenPosition);
                 Vector3 worldPos = ray.origin + offset;
                 _draggingBlock.transform.position = worldPos;
 
@@ -92,17 +89,20 @@ namespace Scene.Play
             }
         }
 
-        private bool IsPress()
+        private bool IsPress(out Vector2 screenPosition)
         {
             if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
             {
+                screenPosition = Touchscreen.current.primaryTouch.position.ReadValue();
                 return true;
             }
             else if (Mouse.current != null && Mouse.current.leftButton.isPressed)
             {
+                screenPosition = Mouse.current.position.ReadValue();
                 return true;
             }
 
+            screenPosition = Vector2.zero;
             return false;
         }
     }
