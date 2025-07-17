@@ -33,7 +33,7 @@ namespace Scene.Play
             {
                 await UniTask.Yield();
 
-                if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+                if (IsPress())
                 {
                     // 안전하게 마우스 입력 처리
                     Vector2 screenPosition = Mouse.current.position.ReadValue();
@@ -54,7 +54,7 @@ namespace Scene.Play
             }
 
             // 2. 드래그 중 마우스 따라가기
-            while (Mouse.current != null && Mouse.current.leftButton.isPressed)
+            while (IsPress())
             {
                 Vector2 screenPosition = Mouse.current.position.ReadValue();
                 Ray ray = _camera.ScreenPointToRay(screenPosition);
@@ -90,6 +90,20 @@ namespace Scene.Play
                 _draggingBlock = null;
                 return null;
             }
+        }
+
+        private bool IsPress()
+        {
+            if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
+            {
+                return true;
+            }
+            else if (Mouse.current != null && Mouse.current.leftButton.isPressed)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 
