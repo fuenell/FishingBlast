@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Scene.Play::Scene.Play.BlockView
   _blockCell: {fileID: 6565162297987437562, guid: d12564aeff820b444bce71ef9aa916ec, type: 3}
-  _blockCellCpacing: 1.2
+  _blockCellCpacing: 1.18
 --- !u!61 &4515780514336910213
 BoxCollider2D:
   m_ObjectHideFlags: 0
