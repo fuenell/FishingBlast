@@ -12,14 +12,16 @@ namespace Scene.Play
         private readonly BlockQueuePresenter _blockQueuePresenter;
         private readonly BlockGenerator _blockGenerator;
         private readonly BlockBoard _blockBoard;
+        private readonly BlockBoardView _blockBoardView;
         private readonly BlockDragController _blockDragController;
 
-        public PlayFlowController(AdsManager adsManager, BlockQueuePresenter blockQueuePresenter, BlockGenerator blockGenerator, BlockBoard blockBoard, BlockDragController blockDragController)
+        public PlayFlowController(AdsManager adsManager, BlockQueuePresenter blockQueuePresenter, BlockGenerator blockGenerator, BlockBoard blockBoard, BlockBoardView blockBoardView, BlockDragController blockDragController)
         {
             _adsManager = adsManager;
             _blockQueuePresenter = blockQueuePresenter;
             _blockGenerator = blockGenerator;
             _blockBoard = blockBoard;
+            _blockBoardView = blockBoardView;
             _blockDragController = blockDragController;
         }
 
@@ -32,7 +34,10 @@ namespace Scene.Play
         {
             _adsManager.LoadBannerAd(); // 게임 시작 시 배너 광고 로드
 
-            while (true)
+            Debug.Log("Game Start");
+            bool isGameOver = false;
+
+            while (isGameOver == false)
             {
                 List<BlockModel> blocks = _blockGenerator.GenerateNextBlocks();
                 _blockQueuePresenter.CreateAndShowBlocks(blocks);
@@ -43,6 +48,7 @@ namespace Scene.Play
                     if (_blockBoard.IsGameOver(_blockQueuePresenter.RemainBlockList))
                     {
                         Debug.Log("Game Over");
+                        isGameOver = true;
                         break;
                     }
 
@@ -56,13 +62,13 @@ namespace Scene.Play
                     // Todo: 블럭 배치 점수 추가
 
 
-                    // Todo: 매치 성공 블럭 삭제 및 삭제 연출
-                    //// 로직 처리
-                    //var matchedLines = _blockBoard.CheckMatches(); // 리턴값으로 삭제할 셀 위치들
-                    //_blockBoard.ClearLines(matchedLines);
-
-                    //// 뷰 처리
-                    //_blockBoardView.ClearLines(matchedLines); // 이펙트 및 오브젝트 삭제
+                    // 매치 성공 블럭 삭제 및 삭제 연출
+                    MatchedResult matchedResult = _blockBoard.GetMatchedLines(); // 매치 성공한 라인 목록 반환
+                    if (matchedResult.IsEmpty == false)
+                    {
+                        _blockBoard.ClearMatches(matchedResult);    // 매치 성공한 줄 제거
+                        await _blockBoardView.ClearMatches(matchedResult); // 이펙트 및 오브젝트 삭제
+                    }
 
 
                     // Todo: 점수 지급
@@ -74,6 +80,8 @@ namespace Scene.Play
 
                 await UniTask.Delay(500); // 잠깐 대기 후 다음 루프
             }
+
+            Debug.Log("Game End");
         }
     }
 }

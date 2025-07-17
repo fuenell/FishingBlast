@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -47,7 +46,7 @@ namespace UI.Utilities
             if (_safeAreaRect.rect.size.y < _canvasScaler.referenceResolution.y)
             {
                 float newSize = _safeAreaRect.rect.size.y / _canvasScaler.referenceResolution.y;
-                print(newSize);
+                Debug.Log("퍼즐 크기 변경:" + newSize);
                 this.transform.localScale = new Vector3(newSize, newSize, 1);
             }
             else if (safeAreaScreenRatio < referenceRatio)

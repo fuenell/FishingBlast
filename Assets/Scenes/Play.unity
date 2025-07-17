@@ -8187,6 +8187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e6ba56b3bea8e04c80dd2590b7b22b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Scene.Play::Scene.Play.BlockBoardView
+  _blockCellViewPrefab: {fileID: 5741747099272377277, guid: 8be5f161b19d7bf4985ab13ce8d6a0a6, type: 3}
   _boardLeftBottom: {fileID: 1691869667}
   _boardRightTop: {fileID: 587547661}
 --- !u!1 &1914192025

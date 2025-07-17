@@ -46,7 +46,7 @@ namespace Scene.Play
         public List<BlockModel> GenerateNextBlocks()
         {
             // _blockBoard 에 배치할 수 있는 블럭 최소 3,2,1개를 보장해서 랜덤으로 생성
-            int[,] grid = _blockBoard.GetGrid().DeepCopy();
+            bool[,] grid = _blockBoard.GetDeepCopyGrid();
 
             var result = new List<BlockModel>();
 
@@ -59,7 +59,7 @@ namespace Scene.Play
             return result;
         }
 
-        private BlockModel GetPlaceableBlock(int[,] grid)
+        private BlockModel GetPlaceableBlock(bool[,] grid)
         {
             List<Vector2Int[]> remainPatterns = Patterns.ToList();
 
@@ -68,7 +68,8 @@ namespace Scene.Play
                 int randomIndex = Random.Range(0, remainPatterns.Count);
                 BlockModel blockModel = new BlockModel(remainPatterns[randomIndex]);     // 추후 블럭별 가중치를 넣어서 가중치가 높은 블럭이 뽑히도록
                 remainPatterns.RemoveAt(randomIndex);
-                bool canBatch = _blockBoard.CanBatch(blockModel, ref grid);
+                bool canBatch = BlockBoard.CanPlaceBlockAnyWhere(blockModel, ref grid);
+                //Todo: BlockBoard.PlaceBlockAnyWhere(shape, ref grid, x, y); 블럭을 임시로 배치해서 배치된 상태로 비교 가능하게
                 if (canBatch)
                 {
                     return blockModel;
@@ -76,22 +77,6 @@ namespace Scene.Play
             }
 
             return new BlockModel(Patterns[0]);
-        }
-    }
-
-    public static class ArrayExtensions
-    {
-        public static T[,] DeepCopy<T>(this T[,] source)
-        {
-            int rows = source.GetLength(0);
-            int cols = source.GetLength(1);
-            var result = new T[rows, cols];
-
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
-                    result[i, j] = source[i, j];
-
-            return result;
         }
     }
 }
