@@ -14,13 +14,40 @@ namespace Scene.Play
         private float _localBlockWidth;
         private float _localBlockHeight;
 
-        private float WorldBlockWidth => (_boardRightTop.position.x - _boardLeftBottom.position.x) / (BoardConfig.Width - 1);
-        private float WorldBlockHeight => (_boardRightTop.position.y - _boardLeftBottom.position.y) / (BoardConfig.Height - 1);
+        private float _worldBlockWidth;
+        private float _worldBlockHeight;
 
-        public void Awake()
+        private Vector3 _lastLeftBottomPos;
+        private Vector3 _lastRightTopPos;
+
+        public void Start()
         {
             _localBlockWidth = (_boardRightTop.localPosition.x - _boardLeftBottom.localPosition.x) / (BoardConfig.Width - 1);
             _localBlockHeight = (_boardRightTop.localPosition.y - _boardLeftBottom.localPosition.y) / (BoardConfig.Height - 1);
+
+            UpdateWorldBlockSizeCache();
+        }
+
+        private void Update()
+        {
+            if (HasBoardPositionChanged())
+            {
+                UpdateWorldBlockSizeCache();
+            }
+        }
+
+        private bool HasBoardPositionChanged()
+        {
+            return _boardLeftBottom.position != _lastLeftBottomPos || _boardRightTop.position != _lastRightTopPos;
+        }
+
+        private void UpdateWorldBlockSizeCache()
+        {
+            _lastLeftBottomPos = _boardLeftBottom.position;
+            _lastRightTopPos = _boardRightTop.position;
+
+            _worldBlockWidth = (_boardRightTop.position.x - _boardLeftBottom.position.x) / (BoardConfig.Width - 1);
+            _worldBlockHeight = (_boardRightTop.position.y - _boardLeftBottom.position.y) / (BoardConfig.Height - 1);
         }
 
         public void PlaceBlock(BlockView block, Vector2Int cellPos)
@@ -45,8 +72,8 @@ namespace Scene.Play
         public Vector2Int WorldToCell(Vector3 position)
         {
             Vector2 boardPostion = position - _boardLeftBottom.position;
-            int x = Mathf.RoundToInt(boardPostion.x / WorldBlockWidth);
-            int y = Mathf.RoundToInt(boardPostion.y / WorldBlockHeight);
+            int x = Mathf.RoundToInt(boardPostion.x / _worldBlockWidth);
+            int y = Mathf.RoundToInt(boardPostion.y / _worldBlockHeight);
             return new Vector2Int(x, y);
         }
 
