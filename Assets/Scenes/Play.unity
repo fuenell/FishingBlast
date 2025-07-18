@@ -7972,7 +7972,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleSizeHandler
   _canvasScaler: {fileID: 21650369}
   _safeAreaRect: {fileID: 1743915561}
-  _yOffset: 1.32
 --- !u!1 &1904237962
 GameObject:
   m_ObjectHideFlags: 0
@@ -9391,6 +9390,6 @@ SceneRoots:
   - {fileID: 295298840}
   - {fileID: 5497402842473945876}
   - {fileID: 21650371}
-  - {fileID: 1877660380}
-  - {fileID: 497568916}
   - {fileID: 1557296882}
+  - {fileID: 497568916}
+  - {fileID: 1877660380}
