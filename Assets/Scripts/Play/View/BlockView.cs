@@ -34,6 +34,7 @@ namespace Scene.Play
 
                 Vector2 cellPosition = new Vector2(pos.x, pos.y) * _blockCellCpacing;
                 blockCell.transform.localPosition = cellPosition;
+                blockCell.transform.localScale = Vector3.one;
 
                 rect.x = Mathf.Min(rect.x, pos.x);
                 rect.y = Mathf.Min(rect.y, pos.y);

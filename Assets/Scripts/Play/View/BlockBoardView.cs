@@ -11,17 +11,16 @@ namespace Scene.Play
         [SerializeField] private Transform _boardLeftBottom;
         [SerializeField] private Transform _boardRightTop;
 
-        private Vector2 _centerPosition;
+        private float _localBlockWidth;
+        private float _localBlockHeight;
 
-        private float _blockWidth;
-        private float _blockHeight;
+        private float WorldBlockWidth => (_boardRightTop.position.x - _boardLeftBottom.position.x) / (BoardConfig.Width - 1);
+        private float WorldBlockHeight => (_boardRightTop.position.y - _boardLeftBottom.position.y) / (BoardConfig.Height - 1);
 
         public void Awake()
         {
-            // Todo: 보드 위치가 바뀌면 갱신 필요 (해상도 동적 갱신 필요)
-            _centerPosition = (_boardLeftBottom.position + _boardRightTop.position) * 0.5f;
-            _blockWidth = (_boardRightTop.position.x - _boardLeftBottom.position.x) / (BoardConfig.Width - 1);
-            _blockHeight = (_boardRightTop.position.y - _boardLeftBottom.position.y) / (BoardConfig.Height - 1);
+            _localBlockWidth = (_boardRightTop.localPosition.x - _boardLeftBottom.localPosition.x) / (BoardConfig.Width - 1);
+            _localBlockHeight = (_boardRightTop.localPosition.y - _boardLeftBottom.localPosition.y) / (BoardConfig.Height - 1);
         }
 
         public void PlaceBlock(BlockView block, Vector2Int cellPos)
@@ -29,24 +28,25 @@ namespace Scene.Play
             foreach (Vector2Int blockPos in block.Model.GetShape())
             {
                 Vector2Int placeCellPos = blockPos + cellPos;
-                Vector3 worldPosition = CellToWorld(placeCellPos);
-                BlockCellView blockCellView = Instantiate(_blockCellViewPrefab, worldPosition, Quaternion.identity, this.transform).GetComponent<BlockCellView>();
+                Vector3 boardPosition = CellToBoard(placeCellPos);
+                BlockCellView blockCellView = Instantiate(_blockCellViewPrefab, this.transform).GetComponent<BlockCellView>();
+                blockCellView.transform.localPosition = boardPosition;
                 _blockGrid[placeCellPos.x, placeCellPos.y] = blockCellView;
             }
         }
 
-        private Vector2 CellToWorld(Vector2Int placeCellPos)
+        private Vector2 CellToBoard(Vector2Int placeCellPos)
         {
-            float x = _boardLeftBottom.position.x + placeCellPos.x * _blockWidth;
-            float y = _boardLeftBottom.position.y + placeCellPos.y * _blockHeight;
+            float x = _boardLeftBottom.localPosition.x + placeCellPos.x * _localBlockWidth;
+            float y = _boardLeftBottom.localPosition.y + placeCellPos.y * _localBlockHeight;
             return new Vector2(x, y);
         }
 
         public Vector2Int WorldToCell(Vector3 position)
         {
             Vector2 boardPostion = position - _boardLeftBottom.position;
-            int x = Mathf.RoundToInt(boardPostion.x / _blockWidth);
-            int y = Mathf.RoundToInt(boardPostion.y / _blockHeight);
+            int x = Mathf.RoundToInt(boardPostion.x / WorldBlockWidth);
+            int y = Mathf.RoundToInt(boardPostion.y / WorldBlockHeight);
             return new Vector2Int(x, y);
         }
 

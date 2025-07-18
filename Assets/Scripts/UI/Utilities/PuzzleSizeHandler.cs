@@ -32,38 +32,46 @@ namespace UI.Utilities
 
         private void SetPuzzleSize()
         {
+            this.transform.localScale = Vector3.one;
+
             // safe area의 높이가
             Vector2 gameAreaPosition = GameAreaPosition();
-            gameAreaPosition.y += _yOffset;
+            //gameAreaPosition.y += _yOffset;
             this.transform.position = gameAreaPosition;
 
-
             // target 해상도보다 세로 비율이 길어지면 그만큼 퍼즐 크기를 줄인다
-            float safeAreaScreenRatio = _safeAreaRect.rect.size.x / _safeAreaRect.rect.size.y;
+            float screenRatio = (float)Screen.width / Screen.height;
             float referenceRatio = _canvasScaler.referenceResolution.x / _canvasScaler.referenceResolution.y;
-
-
-            if (_safeAreaRect.rect.size.y < _canvasScaler.referenceResolution.y)
+            if (screenRatio < referenceRatio)
             {
-                float newSize = _safeAreaRect.rect.size.y / _canvasScaler.referenceResolution.y;
-                Debug.Log("퍼즐 크기 변경:" + newSize);
+                float newSize = screenRatio / referenceRatio;
                 this.transform.localScale = new Vector3(newSize, newSize, 1);
             }
-            else if (safeAreaScreenRatio < referenceRatio)
+
+            float needHeight = _canvasScaler.referenceResolution.y - BannerHeight - TopUIHeight;
+            float nowHeight = _safeAreaRect.rect.size.y - BannerHeight - TopUIHeight;
+
+            if (nowHeight < needHeight)
             {
-                float newSize = safeAreaScreenRatio / referenceRatio;
-                this.transform.localScale = new Vector3(newSize, newSize, 1);
-            }
-            else
-            {
-                this.transform.localScale = Vector3.one;
+                float newSize = nowHeight / needHeight;
+                this.transform.localScale *= newSize;
             }
         }
 
         public Vector2 GameAreaPosition()
         {
             Vector2 position = _safeAreaRect.position;
-            position.y += (BannerHeight * 0.005f) - (TopUIHeight * 0.005f);
+
+            float screenToWorldRatio = 0.01f;
+
+            float screenRatio = (float)Screen.width / Screen.height;
+            float referenceRatio = _canvasScaler.referenceResolution.x / _canvasScaler.referenceResolution.y;
+            if (screenRatio < referenceRatio)
+            {
+                screenToWorldRatio *= screenRatio / referenceRatio;
+            }
+
+            position.y += (BannerHeight * screenToWorldRatio * 0.5f) - (TopUIHeight * screenToWorldRatio * 0.5f);
             return position;
         }
     }
