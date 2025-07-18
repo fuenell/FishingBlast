@@ -62,7 +62,7 @@ namespace Scene.Play
             }
         }
 
-        private Vector2 CellToBoard(Vector2Int placeCellPos)
+        public Vector2 CellToBoard(Vector2Int placeCellPos)
         {
             float x = _boardLeftBottom.localPosition.x + placeCellPos.x * _localBlockWidth;
             float y = _boardLeftBottom.localPosition.y + placeCellPos.y * _localBlockHeight;

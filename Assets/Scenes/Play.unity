@@ -1836,7 +1836,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 841107838}
-  - {fileID: 766048101}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &499778145
@@ -3227,7 +3226,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 497568916}
+  m_Father: {fileID: 1020770120}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &766048102
 MonoBehaviour:
@@ -3241,6 +3240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98999bbb9ff628a498042acaf0f271d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Scene.Play::Scene.Play.BlockPlacementPreview
+  _blockCellPreviewPrefab: {fileID: 5741747099272377277, guid: 9ce1b0d44f0446d42a968fef6b22cbc9, type: 3}
 --- !u!1 &804972993
 GameObject:
   m_ObjectHideFlags: 0
@@ -4383,6 +4383,7 @@ Transform:
   - {fileID: 1138990638}
   - {fileID: 1918779728}
   - {fileID: 1019709996}
+  - {fileID: 766048101}
   m_Father: {fileID: 1877660380}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1020770121
