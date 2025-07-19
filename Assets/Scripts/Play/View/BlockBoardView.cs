@@ -57,6 +57,7 @@ namespace Scene.Play
                 Vector2Int placeCellPos = blockPos + gridPosition;
                 Vector3 boardPosition = CellToBoard(placeCellPos);
                 BlockCellView blockCellView = Instantiate(_blockCellViewPrefab, this.transform).GetComponent<BlockCellView>();
+                blockCellView.SetColor(block.ColorIndex);
                 blockCellView.transform.localPosition = boardPosition;
                 _blockGrid[placeCellPos.x, placeCellPos.y] = blockCellView;
             }

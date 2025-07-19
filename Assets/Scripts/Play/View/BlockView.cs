@@ -5,7 +5,7 @@ namespace Scene.Play
     public class BlockView : MonoBehaviour
     {
         [SerializeField]
-        private Sprite _blockCell;
+        private GameObject _blockCellPrefab;
 
         [SerializeField]
         private float _blockCellCpacing = 1.2f;
@@ -16,8 +16,12 @@ namespace Scene.Play
         private Transform _cells;
         public Vector3 Center => _cells != null ? _cells.position : Vector3.zero;
 
-        public void SetModel(BlockModel model)
+        private int _colorIndex;
+        public int ColorIndex => _colorIndex;
+
+        public void SetModel(BlockModel model, int colorIndex)
         {
+            _colorIndex = colorIndex;
             _model = model;
             // 비주얼 구성
 
@@ -28,9 +32,8 @@ namespace Scene.Play
 
             foreach (Vector2Int pos in _model.GetShape())
             {
-                GameObject blockCell = new GameObject("Cell");
-                blockCell.transform.parent = _cells;
-                blockCell.AddComponent<SpriteRenderer>().sprite = _blockCell;
+                GameObject blockCell = Instantiate(_blockCellPrefab, _cells);
+                blockCell.GetComponent<BlockCellView>().SetColor(colorIndex);
 
                 Vector2 cellPosition = new Vector2(pos.x, pos.y) * _blockCellCpacing;
                 blockCell.transform.localPosition = cellPosition;

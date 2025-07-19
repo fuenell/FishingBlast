@@ -25,7 +25,7 @@ namespace Scene.Play
             {
                 var blockGO = Instantiate(_blockViewPrefab, _blockSlots[i]);
                 var blockView = blockGO.GetComponent<BlockView>();
-                blockView.SetModel(blocks[i]);
+                blockView.SetModel(blocks[i], Random.Range(0, BoardConfig.ColorCount));
             }
         }
 

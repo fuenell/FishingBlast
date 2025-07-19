@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5995439063814942809}
-  - component: {fileID: 1036694773173141901}
   - component: {fileID: 4330854144586454340}
+  - component: {fileID: 1036694773173141901}
   m_Layer: 0
   m_Name: BlockCellPreview
   m_TagString: Untagged
@@ -33,6 +33,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4330854144586454340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5741747099272377277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4976f585ea81ca4ab898ffdcf8ba28a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Scene.Play::Scene.Play.BlockCellView
+  _colorSprites:
+  - {fileID: 6565162297987437562, guid: d12564aeff820b444bce71ef9aa916ec, type: 3}
+  - {fileID: -4987337320017983735, guid: 573e5d1609670024ca220e08d1aa4067, type: 3}
+  - {fileID: 6286595657586805340, guid: f8cdf51891d599f42afac9326c0fcaa5, type: 3}
+  - {fileID: 6358040702757662528, guid: c04bfcca41ccc2d4ebf38ace89c39ac8, type: 3}
 --- !u!212 &1036694773173141901
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -91,15 +108,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4330854144586454340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5741747099272377277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4976f585ea81ca4ab898ffdcf8ba28a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Scene.Play::Scene.Play.BlockCellView

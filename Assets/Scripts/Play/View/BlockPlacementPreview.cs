@@ -10,7 +10,7 @@ namespace Scene.Play
 
         private BlockBoardView _blockBoardView;
 
-        private List<GameObject> _blockCellPreviewList = new List<GameObject>();
+        private List<BlockCellView> _blockCellPreviewList = new List<BlockCellView>();
 
         [Inject]
         public void Construct(BlockBoardView blockBoardView)
@@ -26,26 +26,27 @@ namespace Scene.Play
             {
                 if (_blockCellPreviewList.Count <= index)
                 {
-                    GameObject blockCellPreview = Instantiate(_blockCellPreviewPrefab, this.transform);
+                    BlockCellView blockCellPreview = Instantiate(_blockCellPreviewPrefab, this.transform).GetComponent<BlockCellView>();
                     _blockCellPreviewList.Add(blockCellPreview);
                 }
 
                 Vector2Int placeCellPos = blockPos + cellPos;
                 Vector3 boardPosition = _blockBoardView.CellToBoard(placeCellPos);
-                _blockCellPreviewList[index].SetActive(true);
+                _blockCellPreviewList[index].SetColor(block.ColorIndex);
                 _blockCellPreviewList[index].transform.localPosition = boardPosition;
+                _blockCellPreviewList[index].gameObject.SetActive(true);
                 index++;
             }
 
             for (; index < _blockCellPreviewList.Count; index++)
             {
-                _blockCellPreviewList[index].SetActive(false);
+                _blockCellPreviewList[index].gameObject.SetActive(false);
             }
         }
 
         public void Hide()
         {
-            _blockCellPreviewList.ForEach(preview => preview.SetActive(false));
+            _blockCellPreviewList.ForEach(cell => cell.gameObject.SetActive(false));
         }
     }
 }
