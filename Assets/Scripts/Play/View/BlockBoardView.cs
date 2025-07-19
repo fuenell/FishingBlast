@@ -50,11 +50,11 @@ namespace Scene.Play
             _worldBlockHeight = (_boardRightTop.position.y - _boardLeftBottom.position.y) / (BoardConfig.Height - 1);
         }
 
-        public void PlaceBlock(BlockView block, Vector2Int cellPos)
+        public void PlaceBlock(BlockView block, Vector2Int gridPosition)
         {
             foreach (Vector2Int blockPos in block.Model.GetShape())
             {
-                Vector2Int placeCellPos = blockPos + cellPos;
+                Vector2Int placeCellPos = blockPos + gridPosition;
                 Vector3 boardPosition = CellToBoard(placeCellPos);
                 BlockCellView blockCellView = Instantiate(_blockCellViewPrefab, this.transform).GetComponent<BlockCellView>();
                 blockCellView.transform.localPosition = boardPosition;
@@ -62,16 +62,16 @@ namespace Scene.Play
             }
         }
 
-        public Vector2 CellToBoard(Vector2Int placeCellPos)
+        public Vector2 CellToBoard(Vector2Int gridPosition)
         {
-            float x = _boardLeftBottom.localPosition.x + placeCellPos.x * _localBlockWidth;
-            float y = _boardLeftBottom.localPosition.y + placeCellPos.y * _localBlockHeight;
+            float x = _boardLeftBottom.localPosition.x + gridPosition.x * _localBlockWidth;
+            float y = _boardLeftBottom.localPosition.y + gridPosition.y * _localBlockHeight;
             return new Vector2(x, y);
         }
 
-        public Vector2Int WorldToCell(Vector3 position)
+        public Vector2Int WorldToGrid(Vector3 worldPosition)
         {
-            Vector2 boardPostion = position - _boardLeftBottom.position;
+            Vector2 boardPostion = worldPosition - _boardLeftBottom.position;
             int x = Mathf.RoundToInt(boardPostion.x / _worldBlockWidth);
             int y = Mathf.RoundToInt(boardPostion.y / _worldBlockHeight);
             return new Vector2Int(x, y);

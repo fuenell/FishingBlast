@@ -42,14 +42,14 @@ namespace Scene.Play
             return _grid.DeepCopy();
         }
 
-        public bool CanPlaceBlock(BlockModel block, Vector2Int position)
+        public bool CanPlaceBlock(BlockModel block, Vector2Int gridPosition)
         {
-            return CanPlaceBlock(block.GetShape(), ref _grid, position.x, position.y);
+            return CanPlaceBlock(block.GetShape(), ref _grid, gridPosition.x, gridPosition.y);
         }
 
-        public void PlaceBlock(BlockModel block, Vector2Int position)
+        public void PlaceBlock(BlockModel block, Vector2Int gridPosition)
         {
-            PlaceBlock(block.GetShape(), ref _grid, position.x, position.y);
+            PlaceBlock(block.GetShape(), ref _grid, gridPosition.x, gridPosition.y);
         }
 
         /// <summary>

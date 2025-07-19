@@ -51,8 +51,8 @@ namespace Scene.Play
                 }
             }
 
-            Vector2Int cellPos = Vector2Int.zero;
-            bool canPlace = false;
+            Vector2Int lastGridPosition = Vector2Int.zero;
+            bool lastCanPlace = false;
 
             // 2. 드래그 중 마우스 따라가기
             while (IsPress(out Vector2 pressScreenPosition))
@@ -62,28 +62,43 @@ namespace Scene.Play
                 _draggingBlock.transform.position = worldPos;
 
                 // 3. 마우스 놓았을 때 유효한 위치인지 판단
-                cellPos = _blockBoardView.WorldToCell(_draggingBlock.Center);
-                canPlace = _blockBoard.CanPlaceBlock(_draggingBlock.Model, cellPos);
+                Vector2Int gridPosition = _blockBoardView.WorldToGrid(_draggingBlock.Center);
+                bool canPlace = _blockBoard.CanPlaceBlock(_draggingBlock.Model, gridPosition);
+
                 if (canPlace)
                 {
-                    _placementPreview.ShowPreview(_draggingBlock, cellPos); // 선택적으로 미리보기 출력
+                    lastGridPosition = gridPosition;
+                    lastCanPlace = canPlace;
+                    _placementPreview.ShowPreview(_draggingBlock, lastGridPosition); // 선택적으로 미리보기 출력
                 }
                 else
                 {
-                    _placementPreview.Hide(); // 유효하지 않으면 미리보기 숨김
+                    // 만약 이전 프레임이 canPlace 이고 최대 거리가 1칸 이내면 유지
+                    if (lastCanPlace)
+                    {
+                        Vector2Int distanceVector = lastGridPosition - gridPosition;
+                        int maxDistance = Mathf.Max(Mathf.Abs(distanceVector.x), Mathf.Abs(distanceVector.y));
+                        // 유지 실패
+                        if (1 < maxDistance)
+                        {
+                            lastCanPlace = canPlace;
+                        }
+                    }
+
+                    if (lastCanPlace == false)
+                    {
+                        _placementPreview.Hide(); // 유효하지 않으면 미리보기 숨김
+                    }
                 }
 
                 await UniTask.Yield();
             }
 
             // 3. 마우스 놓았을 때 유효한 위치인지 판단
-            //Vector2Int cellPos = _blockBoardView.WorldToCell(_draggingBlock.Center);
-            //bool canPlace = _blockBoard.CanPlaceBlock(_draggingBlock.Model, cellPos);
-
-            if (canPlace)
+            if (lastCanPlace)
             {
-                _blockBoard.PlaceBlock(_draggingBlock.Model, cellPos);
-                _blockBoardView.PlaceBlock(_draggingBlock, cellPos);
+                _blockBoard.PlaceBlock(_draggingBlock.Model, lastGridPosition);
+                _blockBoardView.PlaceBlock(_draggingBlock, lastGridPosition);
                 _placementPreview.Hide();
 
                 var model = _draggingBlock.Model;
