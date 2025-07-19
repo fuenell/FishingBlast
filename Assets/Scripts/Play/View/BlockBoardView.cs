@@ -80,8 +80,6 @@ namespace Scene.Play
 
         public async UniTask ClearMatches(MatchedResult matches)
         {
-            await UniTask.WaitForSeconds(0.2f);
-
             int width = _blockGrid.GetLength(0);
             int height = _blockGrid.GetLength(1);
 
@@ -113,6 +111,7 @@ namespace Scene.Play
                 }
             }
 
+            await UniTask.WaitForSeconds(0.2f);
         }
     }
 }

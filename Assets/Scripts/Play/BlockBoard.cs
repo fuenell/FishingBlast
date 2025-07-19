@@ -140,6 +140,65 @@ namespace Scene.Play
             return true;
         }
 
+        public MatchedResult GetMatchedLinesIfPlaced(BlockModel model, Vector2Int gridPosition)
+        {
+            int width = _grid.GetLength(0);
+            int height = _grid.GetLength(1);
+            var result = new MatchedResult();
+
+            HashSet<Vector2Int> virtualFilledCells = new HashSet<Vector2Int>();
+
+            foreach (var shape in model.GetShape())
+            {
+                Vector2Int pos = gridPosition + shape;
+                virtualFilledCells.Add(pos);
+            }
+
+            // 가로 줄 검사
+            for (int y = 0; y < height; y++)
+            {
+                bool full = true;
+                for (int x = 0; x < width; x++)
+                {
+                    var pos = new Vector2Int(x, y);
+                    bool occupied = _grid[x, y] || virtualFilledCells.Contains(pos);
+
+                    if (!occupied)
+                    {
+                        full = false;
+                        break;
+                    }
+                }
+                if (full)
+                {
+                    result.Rows.Add(y);
+                }
+            }
+
+            // 세로 줄 검사
+            for (int x = 0; x < width; x++)
+            {
+                bool full = true;
+                for (int y = 0; y < height; y++)
+                {
+                    var pos = new Vector2Int(x, y);
+                    bool occupied = _grid[x, y] || virtualFilledCells.Contains(pos);
+
+                    if (!occupied)
+                    {
+                        full = false;
+                        break;
+                    }
+                }
+                if (full)
+                {
+                    result.Columns.Add(x);
+                }
+            }
+
+            return result;
+        }
+
         #region 로직
         private static void PlaceBlock(Vector2Int[] shape, ref bool[,] grid, int x, int y)
         {
@@ -209,6 +268,7 @@ namespace Scene.Play
 
             return true;
         }
+
         #endregion
     }
 }

@@ -1409,7 +1409,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1587823239
-  m_SortingLayer: -2
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 859292169154650759, guid: 8497ec85f48d0cd4581ca766c98e1713, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.1764706}
@@ -2843,7 +2843,7 @@ SortingGroup:
   m_GameObject: {fileID: 711301883}
   m_Enabled: 1
   m_SortingLayerID: 1587823239
-  m_SortingLayer: -2
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_SortAtRoot: 0
 --- !u!212 &711301886
@@ -3602,7 +3602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Scene.Play::Scene.Play.BlockDragController
   _camera: {fileID: 89948791}
-  _placementPreview: {fileID: 0}
+  _blockToutchOffset: {x: 0, y: 3, z: 0}
 --- !u!1 &851230019
 GameObject:
   m_ObjectHideFlags: 0
@@ -4359,6 +4359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1020770120}
   - component: {fileID: 1020770121}
+  - component: {fileID: 1020770122}
   m_Layer: 0
   m_Name: BlockBoardView
   m_TagString: Untagged
@@ -4401,6 +4402,18 @@ MonoBehaviour:
   _blockCellViewPrefab: {fileID: 5741747099272377277, guid: 8be5f161b19d7bf4985ab13ce8d6a0a6, type: 3}
   _boardLeftBottom: {fileID: 1918779728}
   _boardRightTop: {fileID: 1019709996}
+--- !u!210 &1020770122
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1020770119}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &1038547802
 GameObject:
   m_ObjectHideFlags: 0
@@ -4795,7 +4808,7 @@ SortingGroup:
   m_GameObject: {fileID: 1138990637}
   m_Enabled: 1
   m_SortingLayerID: 1587823239
-  m_SortingLayer: -2
+  m_SortingLayer: -1
   m_SortingOrder: 1
   m_SortAtRoot: 0
 --- !u!1 &1152756553
@@ -5580,7 +5593,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1587823239
-  m_SortingLayer: -2
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7954369100061952878, guid: 02e9bc714ee6da34485b04ae28738a15, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -6069,7 +6082,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1587823239
-  m_SortingLayer: -2
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 3276709112964975277, guid: 112f7413c5ae1a148acfb3785d4762e4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

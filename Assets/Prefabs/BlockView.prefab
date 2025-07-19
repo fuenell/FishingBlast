@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1082222964763969600}
   - component: {fileID: 2055875617099631880}
+  - component: {fileID: 2072899701669021307}
   - component: {fileID: 4515780514336910213}
   m_Layer: 6
   m_Name: BlockView
@@ -47,6 +48,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Scene.Play::Scene.Play.BlockView
   _blockCellPrefab: {fileID: 5741747099272377277, guid: 8be5f161b19d7bf4985ab13ce8d6a0a6, type: 3}
   _blockCellCpacing: 1.18
+--- !u!210 &2072899701669021307
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4195677178187949558}
+  m_Enabled: 1
+  m_SortingLayerID: -514946999
+  m_SortingLayer: 2
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!61 &4515780514336910213
 BoxCollider2D:
   m_ObjectHideFlags: 0

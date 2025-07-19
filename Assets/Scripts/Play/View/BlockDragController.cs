@@ -8,11 +8,12 @@ namespace Scene.Play
     public class BlockDragController : MonoBehaviour
     {
         [SerializeField] private Camera _camera;
-        [SerializeField] private BlockPlacementPreview _placementPreview;
+        [SerializeField] private Vector3 _blockToutchOffset = new Vector3(0, 3, 0);
 
-        private Vector3 _blockToutchOffset = new Vector3(0, 3, 0);
+        private BlockPlacementPreview _placementPreview;
         private BlockBoard _blockBoard;
         private BlockBoardView _blockBoardView;
+
         private BlockView _draggingBlock;
 
         [Inject]
@@ -67,9 +68,11 @@ namespace Scene.Play
 
                 if (canPlace)
                 {
+                    var matches = _blockBoard.GetMatchedLinesIfPlaced(_draggingBlock.Model, gridPosition);
+                    _placementPreview.ShowPreview(_draggingBlock, gridPosition, matches);
+
                     lastGridPosition = gridPosition;
                     lastCanPlace = canPlace;
-                    _placementPreview.ShowPreview(_draggingBlock, lastGridPosition); // 선택적으로 미리보기 출력
                 }
                 else
                 {
@@ -87,7 +90,7 @@ namespace Scene.Play
 
                     if (lastCanPlace == false)
                     {
-                        _placementPreview.Hide(); // 유효하지 않으면 미리보기 숨김
+                        _placementPreview.HidePreview(); // 유효하지 않으면 미리보기 숨김
                     }
                 }
 
@@ -99,7 +102,7 @@ namespace Scene.Play
             {
                 _blockBoard.PlaceBlock(_draggingBlock.Model, lastGridPosition);
                 _blockBoardView.PlaceBlock(_draggingBlock, lastGridPosition);
-                _placementPreview.Hide();
+                _placementPreview.HidePreview();
 
                 var model = _draggingBlock.Model;
 
@@ -111,7 +114,7 @@ namespace Scene.Play
             else
             {
                 _draggingBlock.ResetPosition(); // 원위치 복귀
-                _placementPreview.Hide();
+                _placementPreview.HidePreview();
                 _draggingBlock = null;
                 return null;
             }
