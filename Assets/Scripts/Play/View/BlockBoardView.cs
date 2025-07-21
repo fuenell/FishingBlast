@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using VContainer;
 
 namespace Scene.Play
 {
@@ -11,6 +12,8 @@ namespace Scene.Play
         [SerializeField] private Transform _boardLeftBottom;
         [SerializeField] private Transform _boardRightTop;
 
+        private CameraShaker _cameraShaker;
+
         private float _localBlockWidth;
         private float _localBlockHeight;
 
@@ -19,6 +22,13 @@ namespace Scene.Play
 
         private Vector3 _lastLeftBottomPos;
         private Vector3 _lastRightTopPos;
+
+        [Inject]
+        public void Construct(CameraShaker cameraShaker)
+        {
+            _cameraShaker = cameraShaker;
+        }
+
 
         public void Start()
         {
@@ -82,6 +92,8 @@ namespace Scene.Play
         {
             int width = _blockGrid.GetLength(0);
             int height = _blockGrid.GetLength(1);
+
+            _cameraShaker.Shake(0.1f, (matches.Rows.Count + matches.Columns.Count) * 0.1f);
 
             // 가로 줄 제거
             foreach (int y in matches.Rows)

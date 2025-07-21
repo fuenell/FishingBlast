@@ -11,6 +11,7 @@ namespace Scene.Play
         [SerializeField] private BlockBoardView _blockBoardView;
         [SerializeField] private BlockPlacementPreview _placementPreview;
         [SerializeField] private ScorePresenter _scorePresenter;
+        [SerializeField] private CameraShaker _cameraShaker;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -19,6 +20,7 @@ namespace Scene.Play
             builder.RegisterComponent(_blockBoardView);
             builder.RegisterComponent(_placementPreview);
             builder.RegisterComponent(_scorePresenter);
+            builder.RegisterComponent(_cameraShaker);
 
             builder.Register<BlockGenerator>(Lifetime.Scoped);
             builder.Register<BlockBoard>(Lifetime.Scoped);
