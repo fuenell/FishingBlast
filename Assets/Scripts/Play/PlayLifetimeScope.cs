@@ -10,16 +10,19 @@ namespace Scene.Play
         [SerializeField] private BlockDragController _blockDragController;
         [SerializeField] private BlockBoardView _blockBoardView;
         [SerializeField] private BlockPlacementPreview _placementPreview;
+        [SerializeField] private ScorePresenter _scorePresenter;
 
         protected override void Configure(IContainerBuilder builder)
         {
-            builder.RegisterComponent(_blockQueuePresenter); // 씬 오브젝트
-            builder.RegisterComponent(_blockDragController); // 씬 오브젝트
-            builder.RegisterComponent(_blockBoardView); // 씬 오브젝트
-            builder.RegisterComponent(_placementPreview); // 씬 오브젝트
+            builder.RegisterComponent(_blockQueuePresenter);
+            builder.RegisterComponent(_blockDragController);
+            builder.RegisterComponent(_blockBoardView);
+            builder.RegisterComponent(_placementPreview);
+            builder.RegisterComponent(_scorePresenter);
 
             builder.Register<BlockGenerator>(Lifetime.Scoped);
             builder.Register<BlockBoard>(Lifetime.Scoped);
+            builder.Register<ScoreManager>(Lifetime.Scoped);
 
             builder.RegisterEntryPoint<PlayFlowController>(Lifetime.Scoped);
         }

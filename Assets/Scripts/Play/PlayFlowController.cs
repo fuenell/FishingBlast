@@ -15,8 +15,9 @@ namespace Scene.Play
         private readonly BlockBoard _blockBoard;
         private readonly BlockBoardView _blockBoardView;
         private readonly BlockDragController _blockDragController;
+        private readonly ScoreManager _scoreManager;
 
-        public PlayFlowController(SceneLoader sceneLoader, AdsManager adsManager, BlockQueuePresenter blockQueuePresenter, BlockGenerator blockGenerator, BlockBoard blockBoard, BlockBoardView blockBoardView, BlockDragController blockDragController)
+        public PlayFlowController(SceneLoader sceneLoader, AdsManager adsManager, BlockQueuePresenter blockQueuePresenter, BlockGenerator blockGenerator, BlockBoard blockBoard, BlockBoardView blockBoardView, BlockDragController blockDragController, ScoreManager scoreManager)
         {
             _sceneLoader = sceneLoader;
             _adsManager = adsManager;
@@ -25,6 +26,7 @@ namespace Scene.Play
             _blockBoard = blockBoard;
             _blockBoardView = blockBoardView;
             _blockDragController = blockDragController;
+            _scoreManager = scoreManager;
         }
 
         public void Start()
@@ -59,22 +61,17 @@ namespace Scene.Play
                     if (placedBlock != null)
                     {
                         _blockQueuePresenter.RemoveBlock(placedBlock);
+                        _scoreManager.AddPlaceScore(placedBlock);   // 블럭 배치 점수 추가
                     }
-
-                    // Todo: 블럭 배치 점수 추가
-
 
                     // 매치 성공 블럭 삭제 및 삭제 연출
                     MatchedResult matchedResult = _blockBoard.GetMatchedLines(); // 매치 성공한 라인 목록 반환
                     if (matchedResult.IsEmpty == false)
                     {
                         _blockBoard.ClearMatches(matchedResult);    // 매치 성공한 줄 제거
+                        _scoreManager.AddMatchScore(matchedResult);     // 매치 점수 지급
                         await _blockBoardView.ClearMatches(matchedResult); // 이펙트 및 오브젝트 삭제
                     }
-
-
-                    // Todo: 점수 지급
-
 
                     // Todo: 점수에 따른 물고기 획득 연출
                 }
