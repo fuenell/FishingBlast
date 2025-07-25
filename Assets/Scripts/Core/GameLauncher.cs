@@ -1,16 +1,14 @@
 using Cysharp.Threading.Tasks;
-using VContainer;
 using VContainer.Unity;
 
 namespace AppScope.Core
 {
     public class GameLauncher : IStartable
     {
-        private GameInitializer _gameInitializer;
-        private SceneLoader _sceneLoader;
+        private readonly GameInitializer _gameInitializer;
+        private readonly SceneLoader _sceneLoader;
 
-        [Inject]
-        public void Construct(GameInitializer gameInitializer, SceneLoader sceneLoader)
+        public GameLauncher(GameInitializer gameInitializer, SceneLoader sceneLoader)
         {
             _gameInitializer = gameInitializer;
             _sceneLoader = sceneLoader;

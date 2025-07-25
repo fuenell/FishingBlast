@@ -6,7 +6,7 @@ namespace AppScope.Core
     {
         public bool IsInitialized { get; private set; } = false;
 
-        private AdsManager _adsManager;
+        private readonly AdsManager _adsManager;
 
         public GameInitializer(AdsManager adsManager)
         {

@@ -7,7 +7,7 @@ namespace Scene.Title
 {
     public class TitleFlowController : IDisposable
     {
-        private SceneLoader _sceneLoader;
+        private readonly SceneLoader _sceneLoader;
 
         private bool _isNavigating = false;
 

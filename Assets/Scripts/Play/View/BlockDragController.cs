@@ -13,15 +13,17 @@ namespace Scene.Play
         private BlockPlacementPreview _placementPreview;
         private BlockBoard _blockBoard;
         private BlockBoardView _blockBoardView;
+        private PlayPopupManager _playPopupManager;
 
         private BlockView _draggingBlock;
 
         [Inject]
-        public void Construct(BlockBoard blockBoard, BlockBoardView blockBoardView, BlockPlacementPreview placementPreview)
+        public void Construct(BlockBoard blockBoard, BlockBoardView blockBoardView, BlockPlacementPreview placementPreview, PlayPopupManager playPopupManager)
         {
             _blockBoard = blockBoard;
             _blockBoardView = blockBoardView;
             _placementPreview = placementPreview;
+            _playPopupManager = playPopupManager;
         }
 
         public async UniTask<BlockModel> DragBlock()
@@ -120,8 +122,16 @@ namespace Scene.Play
             }
         }
 
+        // Todo: 추후 인풋 매니저로 연결
         private bool IsPress(out Vector2 screenPosition)
         {
+            // Todo: 추후 게임 흐름 매니저에게 요청
+            if (_playPopupManager.IsAnyPopupOpen)
+            {
+                screenPosition = Vector2.zero;
+                return false;
+            }
+
             if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
             {
                 screenPosition = Touchscreen.current.primaryTouch.position.ReadValue();
@@ -137,5 +147,4 @@ namespace Scene.Play
             return false;
         }
     }
-
 }
