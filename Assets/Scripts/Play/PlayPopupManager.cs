@@ -1,8 +1,8 @@
+using AppScope.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using VContainer.Unity;
 
 namespace Scene.Play
@@ -10,14 +10,16 @@ namespace Scene.Play
     public class PlayPopupManager : ITickable
     {
         private readonly Dictionary<Type, BasePopup> _popups;
+        private readonly InputService _inputService;
 
         private BasePopup _currentOpenPopup;
 
         public bool IsAnyPopupOpen => _currentOpenPopup != null;
 
         // IReadOnlyList<T>로 받는 것을 권장
-        public PlayPopupManager(IReadOnlyList<BasePopup> popups)
+        public PlayPopupManager(IReadOnlyList<BasePopup> popups, InputService inputService)
         {
+            _inputService = inputService;
             _popups = popups.ToDictionary(p => p.GetType(), p => p);
 
             // 생성자에서 모든 팝업의 OnClosed 이벤트를 구독
@@ -31,8 +33,7 @@ namespace Scene.Play
         public void Tick()
         {
             // 키보드의 Esc 키 또는 안드로이드의 뒤로 가기 버튼이 눌렸는지 확인
-            if ((Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) ||
-                (Gamepad.current != null && Gamepad.current.selectButton.wasPressedThisFrame))
+            if (_inputService.IsPressEscape())
             {
                 Back();
             }

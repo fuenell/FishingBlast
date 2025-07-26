@@ -16,8 +16,9 @@ namespace Scene.Play
         private readonly BlockBoardView _blockBoardView;
         private readonly BlockDragController _blockDragController;
         private readonly ScoreManager _scoreManager;
+        private readonly PlayPopupManager _playPopupManager;
 
-        public PlayFlowController(SceneLoader sceneLoader, AdsManager adsManager, BlockQueuePresenter blockQueuePresenter, BlockGenerator blockGenerator, BlockBoard blockBoard, BlockBoardView blockBoardView, BlockDragController blockDragController, ScoreManager scoreManager)
+        public PlayFlowController(SceneLoader sceneLoader, AdsManager adsManager, BlockQueuePresenter blockQueuePresenter, BlockGenerator blockGenerator, BlockBoard blockBoard, BlockBoardView blockBoardView, BlockDragController blockDragController, ScoreManager scoreManager, PlayPopupManager playPopupManager)
         {
             _sceneLoader = sceneLoader;
             _adsManager = adsManager;
@@ -27,6 +28,7 @@ namespace Scene.Play
             _blockBoardView = blockBoardView;
             _blockDragController = blockDragController;
             _scoreManager = scoreManager;
+            _playPopupManager = playPopupManager;
         }
 
         public void Start()
@@ -56,6 +58,12 @@ namespace Scene.Play
                         break;
                     }
 
+                    if (_playPopupManager.IsAnyPopupOpen)
+                    {
+                        await UniTask.Yield();
+                        continue;
+                    }
+
                     BlockModel placedBlock = await _blockDragController.DragBlock();
 
                     if (placedBlock != null)
@@ -75,7 +83,6 @@ namespace Scene.Play
 
                     // Todo: 점수에 따른 물고기 획득 연출
                 }
-
 
                 await UniTask.Delay(500); // 잠깐 대기 후 다음 루프
             }

@@ -10,6 +10,7 @@ namespace AppScope.Core
             builder.Register<SoundManager>(Lifetime.Singleton);
             builder.Register<SceneLoader>(Lifetime.Singleton);
             builder.Register<AdsManager>(Lifetime.Singleton);
+            builder.Register<InputService>(Lifetime.Singleton);
 
             builder.Register<GameInitializer>(Lifetime.Singleton);
 
