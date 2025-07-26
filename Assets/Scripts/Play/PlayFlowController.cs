@@ -16,9 +16,8 @@ namespace Scene.Play
         private readonly BlockBoardView _blockBoardView;
         private readonly BlockDragController _blockDragController;
         private readonly ScoreManager _scoreManager;
-        private readonly PlayPopupManager _playPopupManager;
 
-        public PlayFlowController(SceneLoader sceneLoader, AdsManager adsManager, BlockQueuePresenter blockQueuePresenter, BlockGenerator blockGenerator, BlockBoard blockBoard, BlockBoardView blockBoardView, BlockDragController blockDragController, ScoreManager scoreManager, PlayPopupManager playPopupManager)
+        public PlayFlowController(SceneLoader sceneLoader, AdsManager adsManager, BlockQueuePresenter blockQueuePresenter, BlockGenerator blockGenerator, BlockBoard blockBoard, BlockBoardView blockBoardView, BlockDragController blockDragController, ScoreManager scoreManager)
         {
             _sceneLoader = sceneLoader;
             _adsManager = adsManager;
@@ -28,7 +27,6 @@ namespace Scene.Play
             _blockBoardView = blockBoardView;
             _blockDragController = blockDragController;
             _scoreManager = scoreManager;
-            _playPopupManager = playPopupManager;
         }
 
         public void Start()
@@ -56,12 +54,6 @@ namespace Scene.Play
                         Debug.Log("Game Over");
                         isGameOver = true;
                         break;
-                    }
-
-                    if (_playPopupManager.IsAnyPopupOpen)
-                    {
-                        await UniTask.Yield();
-                        continue;
                     }
 
                     BlockModel placedBlock = await _blockDragController.DragBlock();

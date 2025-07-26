@@ -14,21 +14,43 @@ namespace Scene.Play
         private BlockBoard _blockBoard;
         private BlockBoardView _blockBoardView;
         private InputService _inputService;
+        private PlayPopupManager _playPopupManager;
 
         private BlockView _draggingBlock;
 
+        private bool _canDragging = false;
+
         [Inject]
-        public void Construct(BlockBoard blockBoard, BlockBoardView blockBoardView, BlockPlacementPreview placementPreview, InputService inputService)
+        public void Construct(BlockBoard blockBoard, BlockBoardView blockBoardView, BlockPlacementPreview placementPreview, InputService inputService, PlayPopupManager playPopupManager)
         {
             _blockBoard = blockBoard;
             _blockBoardView = blockBoardView;
             _placementPreview = placementPreview;
             _inputService = inputService;
+            _playPopupManager = playPopupManager;
+        }
+
+        private void Update()
+        {
+            if (_playPopupManager.IsAnyPopupOpen)
+            {
+                _canDragging = false;
+            }
+            else
+            {
+                _canDragging = true;
+            }
         }
 
         public async UniTask<BlockModel> DragBlock()
         {
             _draggingBlock = await WaitForBlockSelection();
+
+            if (!_canDragging)
+            {
+                return null;
+            }
+
             _draggingBlock.StartDrag();
 
             (bool canPlace, Vector2Int gridPosition) = await TrackBlockMovement(_draggingBlock);
