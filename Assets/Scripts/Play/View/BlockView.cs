@@ -1,5 +1,6 @@
 namespace Scene.Play
 {
+    using AppScope.Data;
     using UnityEngine;
 
     public class BlockView : MonoBehaviour
@@ -16,12 +17,10 @@ namespace Scene.Play
         private Transform _cells;
         public Vector3 Center => _cells != null ? _cells.position : Vector3.zero;
 
-        private int _colorIndex;
-        public int ColorIndex => _colorIndex;
+        public int ColorIndex => _model.ColorIndex;
 
-        public void SetModel(BlockModel model, int colorIndex)
+        public void SetModel(BlockModel model)
         {
-            _colorIndex = colorIndex;
             _model = model;
             // 비주얼 구성
 
@@ -30,10 +29,10 @@ namespace Scene.Play
             _cells = new GameObject("Cells").transform;
             _cells.SetParent(this.transform, false);
 
-            foreach (Vector2Int pos in _model.GetShape())
+            foreach (Vector2Int pos in _model.Shape)
             {
                 GameObject blockCell = Instantiate(_blockCellPrefab, _cells);
-                blockCell.GetComponent<BlockCellView>().SetColor(colorIndex);
+                blockCell.GetComponent<BlockCellView>().SetColor(ColorIndex);
 
                 Vector2 cellPosition = new Vector2(pos.x, pos.y) * _blockCellCpacing;
                 blockCell.transform.localPosition = cellPosition;

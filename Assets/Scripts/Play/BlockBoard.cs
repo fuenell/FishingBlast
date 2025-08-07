@@ -1,3 +1,4 @@
+using AppScope.Data;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,21 +36,47 @@ namespace Scene.Play
     /// </summary>
     public class BlockBoard
     {
-        private bool[,] _grid = new bool[BoardConfig.Width, BoardConfig.Height];
+        public const int EmptyNum = -1;
 
-        public bool[,] GetDeepCopyGrid()
+        private int[,] _grid;
+        public int[,] Grid { get => _grid; }
+
+        public BlockBoard()
+        {
+            _grid = new int[BoardConfig.Width, BoardConfig.Height];
+
+            // _grid를 emptynum으로 초기화
+            for (int i = 0; i < BoardConfig.Width; i++)
+            {
+                for (int j = 0; j < BoardConfig.Height; j++)
+                {
+                    _grid[i, j] = EmptyNum;
+                }
+            }
+        }
+
+        public int[,] GetDeepCopyGrid()
         {
             return _grid.DeepCopy();
         }
 
+        public void SetBoard(int[] gameBoard)
+        {
+            for (int i = 0; i < gameBoard.Length; i++)
+            {
+                // gameBoard를 BoardConfig.Width, BoardConfig.Height 크기에 맞춰서 _grid에 넣는다
+                _grid[i % BoardConfig.Width, i / BoardConfig.Width] = gameBoard[i];
+            }
+        }
+
         public bool CanPlaceBlock(BlockModel block, Vector2Int gridPosition)
         {
-            return CanPlaceBlock(block.GetShape(), ref _grid, gridPosition.x, gridPosition.y);
+            return CanPlaceBlock(block.Shape, ref _grid, gridPosition.x, gridPosition.y);
         }
 
         public void PlaceBlock(BlockModel block, Vector2Int gridPosition)
         {
-            PlaceBlock(block.GetShape(), ref _grid, gridPosition.x, gridPosition.y);
+            PlaceBlock(block.Shape, ref _grid, gridPosition.x, gridPosition.y, block.ColorIndex);
         }
 
         /// <summary>
@@ -67,7 +94,7 @@ namespace Scene.Play
                 bool full = true;
                 for (int x = 0; x < width; x++)
                 {
-                    if (!_grid[x, y])
+                    if (_grid[x, y] == EmptyNum)
                     {
                         full = false;
                         break;
@@ -85,7 +112,7 @@ namespace Scene.Play
                 bool full = true;
                 for (int y = 0; y < height; y++)
                 {
-                    if (!_grid[x, y])
+                    if (_grid[x, y] == EmptyNum)
                     {
                         full = false;
                         break;
@@ -113,7 +140,7 @@ namespace Scene.Play
             {
                 for (int x = 0; x < width; x++)
                 {
-                    _grid[x, y] = false;
+                    _grid[x, y] = EmptyNum;
                 }
             }
 
@@ -122,7 +149,7 @@ namespace Scene.Play
             {
                 for (int y = 0; y < height; y++)
                 {
-                    _grid[x, y] = false;
+                    _grid[x, y] = EmptyNum;
                 }
             }
         }
@@ -148,7 +175,7 @@ namespace Scene.Play
 
             HashSet<Vector2Int> virtualFilledCells = new HashSet<Vector2Int>();
 
-            foreach (var shape in model.GetShape())
+            foreach (var shape in model.Shape)
             {
                 Vector2Int pos = gridPosition + shape;
                 virtualFilledCells.Add(pos);
@@ -161,7 +188,7 @@ namespace Scene.Play
                 for (int x = 0; x < width; x++)
                 {
                     var pos = new Vector2Int(x, y);
-                    bool occupied = _grid[x, y] || virtualFilledCells.Contains(pos);
+                    bool occupied = _grid[x, y] != EmptyNum || virtualFilledCells.Contains(pos);
 
                     if (!occupied)
                     {
@@ -182,7 +209,7 @@ namespace Scene.Play
                 for (int y = 0; y < height; y++)
                 {
                     var pos = new Vector2Int(x, y);
-                    bool occupied = _grid[x, y] || virtualFilledCells.Contains(pos);
+                    bool occupied = _grid[x, y] != EmptyNum || virtualFilledCells.Contains(pos);
 
                     if (!occupied)
                     {
@@ -200,7 +227,7 @@ namespace Scene.Play
         }
 
         #region 로직
-        private static void PlaceBlock(Vector2Int[] shape, ref bool[,] grid, int x, int y)
+        private static void PlaceBlock(Vector2Int[] shape, ref int[,] grid, int x, int y, int colorIndex)
         {
             for (int i = 0; i < shape.Length; i++)
             {
@@ -209,14 +236,14 @@ namespace Scene.Play
                 if (result)
                 {
                     // 배치 가능한곳에 1 배치
-                    grid[shape[i].x + x, shape[i].y + y] = true;
+                    grid[shape[i].x + x, shape[i].y + y] = colorIndex;
                 }
             }
         }
 
-        public static bool CanPlaceBlockAnyWhere(BlockModel blockModel, ref bool[,] grid)
+        public static bool CanPlaceBlockAnyWhere(BlockModel blockModel, ref int[,] grid)
         {
-            Vector2Int[] shape = blockModel.GetShape();
+            Vector2Int[] shape = blockModel.Shape;
 
             for (int x = 0; x < grid.GetLength(0); x++)
             {
@@ -233,7 +260,7 @@ namespace Scene.Play
             return false;
         }
 
-        private static bool CanPlaceBlock(Vector2Int[] shape, ref bool[,] grid, int x, int y)
+        private static bool CanPlaceBlock(Vector2Int[] shape, ref int[,] grid, int x, int y)
         {
             for (int i = 0; i < shape.Length; i++)
             {
@@ -248,9 +275,9 @@ namespace Scene.Play
             return true;
         }
 
-        private static bool CanPlaceCell(bool[,] grid, int x, int y)
+        private static bool CanPlaceCell(int[,] grid, int x, int y)
         {
-            // grid안에 있고
+            // grid 밖이면 불가
             if (x < 0 || grid.GetLength(0) <= x)
             {
                 return false;
@@ -260,8 +287,8 @@ namespace Scene.Play
                 return false;
             }
 
-            // grid 속 다른 블럭과 겹치지 않는지
-            if (grid[x, y] == true)
+            // grid 속 다른 블럭과 겹치면 불가
+            if (grid[x, y] != EmptyNum)
             {
                 return false;
             }

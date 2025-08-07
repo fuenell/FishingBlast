@@ -27,15 +27,28 @@ namespace Scene.Play
         public void Construct(CameraShaker cameraShaker)
         {
             _cameraShaker = cameraShaker;
-        }
-
-
-        public void Start()
-        {
             _localBlockWidth = (_boardRightTop.localPosition.x - _boardLeftBottom.localPosition.x) / (BoardConfig.Width - 1);
             _localBlockHeight = (_boardRightTop.localPosition.y - _boardLeftBottom.localPosition.y) / (BoardConfig.Height - 1);
 
             UpdateWorldBlockSizeCache();
+        }
+
+        public void SetBoard(int[,] grid)
+        {
+            for (int i = 0; i < grid.GetLength(0); i++)
+            {
+                for (int j = 0; j < grid.GetLength(1); j++)
+                {
+                    if (grid[i, j] != BlockBoard.EmptyNum)
+                    {
+                        PlcaeCell(grid[i, j], new Vector2Int(i, j));
+                    }
+                }
+            }
+        }
+
+        public void Start()
+        {
         }
 
         private void Update()
@@ -62,15 +75,20 @@ namespace Scene.Play
 
         public void PlaceBlock(BlockView block, Vector2Int gridPosition)
         {
-            foreach (Vector2Int blockPos in block.Model.GetShape())
+            foreach (Vector2Int blockPos in block.Model.Shape)
             {
                 Vector2Int placeCellPos = blockPos + gridPosition;
-                Vector3 boardPosition = CellToBoard(placeCellPos);
-                BlockCellView blockCellView = Instantiate(_blockCellViewPrefab, this.transform).GetComponent<BlockCellView>();
-                blockCellView.SetColor(block.ColorIndex);
-                blockCellView.transform.localPosition = boardPosition;
-                _blockGrid[placeCellPos.x, placeCellPos.y] = blockCellView;
+                PlcaeCell(block.ColorIndex, placeCellPos);
             }
+        }
+
+        private void PlcaeCell(int colorIndex, Vector2Int gridPosition)
+        {
+            Vector3 boardPosition = CellToBoard(gridPosition);
+            BlockCellView blockCellView = Instantiate(_blockCellViewPrefab, this.transform).GetComponent<BlockCellView>();
+            blockCellView.SetColor(colorIndex);
+            blockCellView.transform.localPosition = boardPosition;
+            _blockGrid[gridPosition.x, gridPosition.y] = blockCellView;
         }
 
         public Vector2 CellToBoard(Vector2Int gridPosition)
@@ -123,7 +141,7 @@ namespace Scene.Play
                 }
             }
 
-            await UniTask.WaitForSeconds(0.2f);
+            //await UniTask.WaitForSeconds(0.2f);
         }
     }
 }

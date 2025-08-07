@@ -11,6 +11,7 @@ namespace AppScope.Core
             builder.Register<SceneLoader>(Lifetime.Singleton);
             builder.Register<AdsManager>(Lifetime.Singleton);
             builder.Register<InputService>(Lifetime.Singleton);
+            builder.Register<DataManager>(Lifetime.Singleton);
 
             builder.Register<GameInitializer>(Lifetime.Singleton);
 

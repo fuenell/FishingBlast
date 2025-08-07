@@ -36,7 +36,7 @@ namespace Scene.Play
         {
             int index = 0;
 
-            foreach (Vector2Int blockPos in block.Model.GetShape())
+            foreach (Vector2Int blockPos in block.Model.Shape)
             {
                 if (_blockCellPreviewList.Count <= index)
                 {

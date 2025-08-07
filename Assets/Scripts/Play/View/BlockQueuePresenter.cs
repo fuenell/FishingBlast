@@ -1,3 +1,4 @@
+using AppScope.Data;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,8 +15,17 @@ namespace Scene.Play
         private List<BlockModel> _blocks; // 현재 화면에 표시된 블럭들
         private int placedCount = 0;
 
-        public bool AreAllBlocksPlaced => _blocks.Count == 0;
         public List<BlockModel> RemainBlockList => _blocks;
+
+        public bool RemainBlockIsZero()
+        {
+            if (_blocks == null || _blocks.Count == 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         public void CreateAndShowBlocks(List<BlockModel> blocks)
         {
@@ -25,7 +35,7 @@ namespace Scene.Play
             {
                 var blockGO = Instantiate(_blockViewPrefab, _blockSlots[i]);
                 var blockView = blockGO.GetComponent<BlockView>();
-                blockView.SetModel(blocks[i], Random.Range(0, BoardConfig.ColorCount));
+                blockView.SetModel(blocks[i]);
             }
         }
 

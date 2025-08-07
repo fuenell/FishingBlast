@@ -25,14 +25,14 @@ namespace AppScope.Core
         public bool IsInitialized { get; private set; } = false;
         private bool _isInitializing = false;
 
-        private RewardedAd m_rewardedAd;
+        private RewardedAd _rewardedAd;
 
-        private bool m_isLoadingRewaredAd = false;
+        private bool _isLoadingRewaredAd = false;
 
-        private float m_loadRetrySeconds = 10f;
-        private int m_maxLoadRetryCount = 3;
+        private float _loadRetrySeconds = 10f;
+        private int _maxLoadRetryCount = 3;
 
-        public bool CanShowRewardedAd => m_rewardedAd != null && m_rewardedAd.CanShowAd();
+        public bool CanShowRewardedAd => _rewardedAd != null && _rewardedAd.CanShowAd();
 
         public async UniTask InitializeAsync()
         {
@@ -58,27 +58,27 @@ namespace AppScope.Core
 
         private async void LoadRewardedAd()
         {
-            if (m_isLoadingRewaredAd)
+            if (_isLoadingRewaredAd)
             {
                 return;
             }
 
-            m_isLoadingRewaredAd = true;
+            _isLoadingRewaredAd = true;
 
             if (!CanShowRewardedAd)
             {
-                DestroyAd(ref m_rewardedAd);
+                DestroyAd(ref _rewardedAd);
             }
 
-            m_rewardedAd = await LoadAdWithRetry(RewardedAdUnitId, "일반");
+            _rewardedAd = await LoadAdWithRetry(RewardedAdUnitId, "일반");
 
-            m_isLoadingRewaredAd = false;
+            _isLoadingRewaredAd = false;
         }
 
         // 광고 로드 메서드
         private async UniTask<RewardedAd> LoadAdWithRetry(string adUnitId, string logPrefix)
         {
-            for (int retryCount = 0; retryCount < m_maxLoadRetryCount; retryCount++)
+            for (int retryCount = 0; retryCount < _maxLoadRetryCount; retryCount++)
             {
                 var tcs = new UniTaskCompletionSource<(RewardedAd, LoadAdError)>();
                 var adRequest = new AdRequest();
@@ -93,12 +93,12 @@ namespace AppScope.Core
                 if (loadError != null)
                 {
                     Debug.LogError($"{logPrefix} 광고 로드 실패/{retryCount}/{loadError.GetMessage()}");
-                    await UniTask.WaitForSeconds(m_loadRetrySeconds);
+                    await UniTask.WaitForSeconds(_loadRetrySeconds);
                 }
                 else if (loadedAd == null)
                 {
                     Debug.LogError($"{logPrefix} 알 수 없는 이유로 광고 로드 실패/{retryCount}");
-                    await UniTask.WaitForSeconds(m_loadRetrySeconds);
+                    await UniTask.WaitForSeconds(_loadRetrySeconds);
                 }
                 else
                 {
@@ -117,7 +117,7 @@ namespace AppScope.Core
 
             if (CanShowRewardedAd)
             {
-                m_rewardedAd.Show(reward => tcs.TrySetResult(reward));
+                _rewardedAd.Show(reward => tcs.TrySetResult(reward));
 
                 Reward reward = await tcs.Task;
 

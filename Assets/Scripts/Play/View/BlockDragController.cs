@@ -1,4 +1,5 @@
 using AppScope.Core;
+using AppScope.Data;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using VContainer;

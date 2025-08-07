@@ -1,3 +1,4 @@
+using AppScope.Data;
 using System;
 
 namespace Scene.Play
@@ -8,6 +9,12 @@ namespace Scene.Play
 
         // 점수 변경 시 이벤트
         public event Action<int> OnScoreChanged;
+
+        public void SetScore(int newScore)
+        {
+            TotalScore = newScore;
+            //OnScoreChanged?.Invoke(TotalScore);
+        }
 
         public void Add(int score)
         {
@@ -33,7 +40,7 @@ namespace Scene.Play
 
         public void AddPlaceScore(BlockModel placedBlock)
         {
-            Add(placedBlock.GetShape().Length);
+            Add(placedBlock.Shape.Length);
         }
     }
 }

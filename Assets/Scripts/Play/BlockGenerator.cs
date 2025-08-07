@@ -1,3 +1,4 @@
+using AppScope.Data;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -77,7 +78,7 @@ namespace Scene.Play
         public List<BlockModel> GenerateNextBlocks()
         {
             // _blockBoard 에 배치할 수 있는 블럭 최소 3,2,1개를 보장해서 랜덤으로 생성
-            bool[,] grid = _blockBoard.GetDeepCopyGrid();
+            int[,] grid = _blockBoard.GetDeepCopyGrid();
 
             var result = new List<BlockModel>();
 
@@ -90,14 +91,14 @@ namespace Scene.Play
             return result;
         }
 
-        private BlockModel GetPlaceableBlock(bool[,] grid)
+        private BlockModel GetPlaceableBlock(int[,] grid)
         {
             List<Vector2Int[]> remainPatterns = Patterns.ToList();
 
             while (0 < remainPatterns.Count)
             {
                 int randomIndex = Random.Range(0, remainPatterns.Count);
-                BlockModel blockModel = new BlockModel(remainPatterns[randomIndex]);     // 추후 블럭별 가중치를 넣어서 가중치가 높은 블럭이 뽑히도록
+                BlockModel blockModel = new BlockModel(remainPatterns[randomIndex], Random.Range(0, BoardConfig.ColorCount));     // 추후 블럭별 가중치를 넣어서 가중치가 높은 블럭이 뽑히도록
                 remainPatterns.RemoveAt(randomIndex);
                 bool canBatch = BlockBoard.CanPlaceBlockAnyWhere(blockModel, ref grid);
                 //Todo: BlockBoard.PlaceBlockAnyWhere(shape, ref grid, x, y); 블럭을 임시로 배치해서 배치된 상태로 비교 가능하게
@@ -107,7 +108,8 @@ namespace Scene.Play
                 }
             }
 
-            return new BlockModel(Patterns[0]);
+            // 놓을 수 있는 블럭이 없으면 0번(1x1) 블럭 생성
+            return new BlockModel(Patterns[0], Random.Range(0, BoardConfig.ColorCount));
         }
     }
 }

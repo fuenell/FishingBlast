@@ -21,6 +21,12 @@ namespace Scene.Play
             _scoreManager.OnScoreChanged += OnScoreChanged;
         }
 
+        private void Start()
+        {
+            _currentScore = _scoreManager.TotalScore;
+            _scoreText.text = _currentScore.ToString();
+        }
+
         private void OnScoreChanged(int newScore)
         {
             if (_scoreRoutine != null)

@@ -17,40 +17,40 @@ namespace AppScope.Core
 
     public class AdsManager
     {
-        private IAdsService m_adsService = null;
+        private IAdsService _adsService = null;
 
         public async UniTask InitializeAsync()
         {
-            if (m_adsService == null)
+            if (_adsService == null)
             {
-                m_adsService = new GoogleAdmobService();
+                _adsService = new GoogleAdmobService();
 
-                await m_adsService.InitializeAsync();
+                await _adsService.InitializeAsync();
             }
         }
 
         public void LoadBannerAd()
         {
-            m_adsService.LoadBannerAd();
+            _adsService.LoadBannerAd();
         }
 
         public void DestroyBannerAd()
         {
-            m_adsService.DestroyBannerAd();
+            _adsService.DestroyBannerAd();
         }
 
         public bool CanShowRewardedAd()
         {
-            return m_adsService.CanShowRewardedAd;
+            return _adsService.CanShowRewardedAd;
         }
 
         public async UniTask<bool> ShowRewardedAd()
         {
             bool adShown = false;
 
-            if (m_adsService.CanShowRewardedAd)
+            if (_adsService.CanShowRewardedAd)
             {
-                adShown = await m_adsService.ShowRewardedAd();
+                adShown = await _adsService.ShowRewardedAd();
             }
             // 광고를 보여줄 수 없는 상태인 경우
             else
