@@ -1,6 +1,8 @@
+using FishingBlast.AppScope;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace FishingBlast.UI
 {
@@ -10,7 +12,7 @@ namespace FishingBlast.UI
         [SerializeField] TMP_Dropdown _volumeDropdown;
         [SerializeField] Toggle _muteToggle;
 
-        //SoundManager _soundManager;
+        SoundManager _soundManager;
 
         private void Awake()
         {
@@ -22,10 +24,10 @@ namespace FishingBlast.UI
             _closeButton.onClick.RemoveListener(Close);
         }
 
-        //[Inject]
-        //public void Construct(SoundManager soundManager)
-        //{
-        //    _soundManager = soundManager;
-        //}
+        [Inject]
+        public void Construct(SoundManager soundManager)
+        {
+            _soundManager = soundManager;
+        }
     }
 }

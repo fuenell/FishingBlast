@@ -1,0 +1,14 @@
+{
+    "name": "FishingBlast.Interfaces",
+    "rootNamespace": "FishingBlast.Interfaces",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

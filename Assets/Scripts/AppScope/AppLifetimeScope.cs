@@ -1,5 +1,4 @@
 using FishingBlast.Data;
-using System;
 using VContainer;
 using VContainer.Unity;
 
@@ -13,13 +12,11 @@ namespace FishingBlast.AppScope
             builder.Register<SceneLoader>(Lifetime.Singleton);
             builder.Register<AdsManager>(Lifetime.Singleton);
             builder.Register<InputService>(Lifetime.Singleton);
-            builder.Register<PopupManager>(Lifetime.Singleton).AsSelf().As<ITickable>().As<IDisposable>();
+            builder.Register<PopupManager>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<DataManager>(Lifetime.Singleton);
-            builder.Register(resolver =>
-            {
-                var dataManager = resolver.Resolve<DataManager>();
-                return dataManager.GetPlayerData();
-            }, Lifetime.Singleton).As<PlayerData>();
+            builder.Register(
+                resolver => resolver.Resolve<DataManager>().GetPlayerData(),
+                Lifetime.Singleton).As<PlayerData>();
 
             builder.Register<GameInitializer>(Lifetime.Singleton);
 

@@ -1,5 +1,5 @@
-using VContainer.Unity;
 using VContainer;
+using VContainer.Unity;
 
 namespace FishingBlast.Title
 {
@@ -7,7 +7,7 @@ namespace FishingBlast.Title
     {
         protected override void Configure(IContainerBuilder builder)
         {
-            builder.Register<TitleFlowController>(Lifetime.Scoped);
+            builder.Register<TitleFlowController>(Lifetime.Scoped).AsImplementedInterfaces().AsSelf();
         }
     }
 }

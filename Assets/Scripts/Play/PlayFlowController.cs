@@ -1,13 +1,16 @@
+using Cysharp.Threading.Tasks;
 using FishingBlast.AppScope;
 using FishingBlast.Data;
-using Cysharp.Threading.Tasks;
+using FishingBlast.Interfaces;
+using FishingBlast.UI;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using VContainer.Unity;
 
 namespace FishingBlast.Play
 {
-    public class PlayFlowController : IStartable
+    public class PlayFlowController : IStartable, IDisposable, IBackButtonHandler
     {
         private readonly SceneLoader _sceneLoader;
         private readonly AdsManager _adsManager;
@@ -18,6 +21,7 @@ namespace FishingBlast.Play
         private readonly BlockDragController _blockDragController;
         private readonly ScoreManager _scoreManager;
         private readonly DataManager _dataManager;
+        private readonly PopupManager _popupManager;
 
         public PlayFlowController(
             SceneLoader sceneLoader,
@@ -28,7 +32,8 @@ namespace FishingBlast.Play
             BlockBoardView blockBoardView,
             BlockDragController blockDragController,
             ScoreManager scoreManager,
-            DataManager dataManager)
+            DataManager dataManager,
+            PopupManager popupManager)
         {
             _sceneLoader = sceneLoader;
             _adsManager = adsManager;
@@ -39,14 +44,33 @@ namespace FishingBlast.Play
             _blockDragController = blockDragController;
             _scoreManager = scoreManager;
             _dataManager = dataManager;
+            _popupManager = popupManager;
         }
+
 
         public void Start()
         {
+            _popupManager.SetBackButtonHandler(this);
+
+            _adsManager.LoadBannerAd(); // 게임 시작 시 배너 광고 로드
+
             LoadGame(_dataManager.GetPlayerData());
 
             StartGameLoop().Forget();
         }
+
+        public void Dispose()
+        {
+            _popupManager.SetBackButtonHandler(null);
+            _adsManager.DestroyBannerAd();
+        }
+
+        // 게임 중 Back 버튼이 눌렸을 때 호출되는 메서드
+        public void HandleBackButtonOnTop()
+        {
+            _popupManager.Show<QuitPopup>();
+        }
+
         private void LoadGame(PlayerData playerData)
         {
             // 첫판 판정
@@ -68,8 +92,6 @@ namespace FishingBlast.Play
 
         private async UniTaskVoid StartGameLoop()
         {
-            _adsManager.LoadBannerAd(); // 게임 시작 시 배너 광고 로드
-
             Debug.Log("Game Start");
             bool isGameOver = false;
 

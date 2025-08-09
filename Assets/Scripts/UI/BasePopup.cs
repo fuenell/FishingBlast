@@ -1,13 +1,14 @@
+using FishingBlast.Interfaces;
 using System;
 using UnityEngine;
 
 namespace FishingBlast.UI
 {
-    public abstract class BasePopup : MonoBehaviour
+    public abstract class BasePopup : MonoBehaviour, IPopup
     {
-        public event Action<BasePopup> OnClosed;
-
         public bool IsOpen => this.gameObject.activeSelf;
+
+        public event Action<IPopup> OnClosed;
 
         public void Initialize()
         {

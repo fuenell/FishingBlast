@@ -2,11 +2,11 @@
     "name": "FishingBlast.AppScope",
     "rootNamespace": "FishingBlast.AppScope",
     "references": [
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
         "GUID:b0214a6008ed146ff8f122a6a9c2f6cc",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
         "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:8f31d061357e77346b61fb80e3258fc3",
-        "GUID:75c8a794eb13d23478f038f35f4a7d24"
+        "GUID:7406f3d6a68214740a56343e437d72e0",
+        "GUID:8f31d061357e77346b61fb80e3258fc3"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

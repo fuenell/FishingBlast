@@ -2,9 +2,11 @@
     "name": "FishingBlast.Title",
     "rootNamespace": "FishingBlast.Title",
     "references": [
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
         "GUID:b0214a6008ed146ff8f122a6a9c2f6cc",
-        "GUID:600c629c8eb40fc41ab7a4fc7b4af65a"
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:600c629c8eb40fc41ab7a4fc7b4af65a",
+        "GUID:7406f3d6a68214740a56343e437d72e0",
+        "GUID:75c8a794eb13d23478f038f35f4a7d24"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
