@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 
-namespace Scene.Play
+namespace FishingBlast.Play
 {
     public class QuitPopup : BasePopup
     {

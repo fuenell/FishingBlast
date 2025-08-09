@@ -1,11 +1,11 @@
-using AppScope.Core;
+using FishingBlast.AppScope;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using VContainer.Unity;
 
-namespace Scene.Play
+namespace FishingBlast.Play
 {
     public class PlayPopupManager : ITickable
     {

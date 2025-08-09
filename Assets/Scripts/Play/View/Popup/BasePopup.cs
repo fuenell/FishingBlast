@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Scene.Play
+namespace FishingBlast.Play
 {
     public abstract class BasePopup : MonoBehaviour
     {

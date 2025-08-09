@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using VContainer;
 using Cysharp.Threading.Tasks;
 
-namespace Scene.Title
+namespace FishingBlast.Title
 {
     public class TitleStartButtonHandler : MonoBehaviour
     {

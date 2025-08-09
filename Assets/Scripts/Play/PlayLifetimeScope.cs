@@ -2,7 +2,7 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace Scene.Play
+namespace FishingBlast.Play
 {
     public class PlayLifetimeScope : LifetimeScope
     {

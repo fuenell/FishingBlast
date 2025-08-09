@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Scene.Play
+namespace FishingBlast.Play
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class BlockCellView : MonoBehaviour

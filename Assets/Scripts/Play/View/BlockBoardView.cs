@@ -2,7 +2,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using VContainer;
 
-namespace Scene.Play
+namespace FishingBlast.Play
 {
     public class BlockBoardView : MonoBehaviour
     {

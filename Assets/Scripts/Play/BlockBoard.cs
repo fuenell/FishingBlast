@@ -1,8 +1,8 @@
-using AppScope.Data;
+using FishingBlast.Data;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Scene.Play
+namespace FishingBlast.Play
 {
     public static class ArrayExtensions
     {

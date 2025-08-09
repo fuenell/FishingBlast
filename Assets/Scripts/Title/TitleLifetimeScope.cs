@@ -1,7 +1,7 @@
 using VContainer.Unity;
 using VContainer;
 
-namespace Scene.Title
+namespace FishingBlast.Title
 {
     public class TitleLifetimeScope : LifetimeScope
     {

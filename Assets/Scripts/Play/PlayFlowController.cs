@@ -1,11 +1,11 @@
-using AppScope.Core;
-using AppScope.Data;
+using FishingBlast.AppScope;
+using FishingBlast.Data;
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using VContainer.Unity;
 
-namespace Scene.Play
+namespace FishingBlast.Play
 {
     public class PlayFlowController : IStartable
     {

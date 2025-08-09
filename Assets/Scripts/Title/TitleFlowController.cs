@@ -1,8 +1,7 @@
-using AppScope.Core;
+using FishingBlast.AppScope;
 using Cysharp.Threading.Tasks;
-using System;
 
-namespace Scene.Title
+namespace FishingBlast.Title
 {
     public class TitleFlowController
     {

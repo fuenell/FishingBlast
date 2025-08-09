@@ -1,10 +1,10 @@
-using AppScope.Core;
+using FishingBlast.AppScope;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 
-namespace Scene.Play
+namespace FishingBlast.Play
 {
     public class SettingsPopup : BasePopup
     {

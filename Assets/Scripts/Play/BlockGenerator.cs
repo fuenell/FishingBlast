@@ -1,9 +1,9 @@
-using AppScope.Data;
+using FishingBlast.Data;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Scene.Play
+namespace FishingBlast.Play
 {
     /// <summary>
     /// 배치 가능한 무작위 블럭 선택

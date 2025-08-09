@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using VContainer;
 
-namespace Scene.Play
+namespace FishingBlast.Play
 {
     public class ScorePresenter : MonoBehaviour
     {

@@ -1,8 +1,8 @@
-using AppScope.Data;
+using FishingBlast.Data;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Scene.Play
+namespace FishingBlast.Play
 {
     /// <summary>
     /// 블럭 UI 생성 및 유저 입력 연결

@@ -1,0 +1,20 @@
+{
+    "name": "FishingBlast.Play",
+    "rootNamespace": "FishingBlast.Play",
+    "references": [
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:600c629c8eb40fc41ab7a4fc7b4af65a",
+        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:8f31d061357e77346b61fb80e3258fc3"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

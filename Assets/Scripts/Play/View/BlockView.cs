@@ -1,6 +1,6 @@
-namespace Scene.Play
+namespace FishingBlast.Play
 {
-    using AppScope.Data;
+    using FishingBlast.Data;
     using UnityEngine;
 
     public class BlockView : MonoBehaviour

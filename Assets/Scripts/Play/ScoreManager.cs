@@ -1,7 +1,7 @@
-using AppScope.Data;
+using FishingBlast.Data;
 using System;
 
-namespace Scene.Play
+namespace FishingBlast.Play
 {
     public class ScoreManager
     {

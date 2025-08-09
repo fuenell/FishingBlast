@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using VContainer;
 
-namespace Scene.Play
+namespace FishingBlast.Play
 {
     public class BlockPlacementPreview : MonoBehaviour
     {

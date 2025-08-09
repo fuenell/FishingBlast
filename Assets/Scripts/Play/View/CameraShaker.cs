@@ -1,4 +1,4 @@
-namespace Scene.Play
+namespace FishingBlast.Play
 {
     using System.Collections;
     using UnityEngine;

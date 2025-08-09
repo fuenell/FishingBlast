@@ -1,8 +1,11 @@
+using FishingBlast.AppScope;
+using FishingBlast.Data;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 
-namespace Scene.Play
+namespace FishingBlast.Play
 {
     public class FishCollectionPopup : BasePopup
     {
@@ -10,6 +13,9 @@ namespace Scene.Play
         [SerializeField] GameObject _test;
 
         [SerializeField] Button _closeButton;
+
+        private DataManager _dataManager;
+        private List<FishData> _fishDataList;
 
         private void Awake()
         {
@@ -23,15 +29,28 @@ namespace Scene.Play
         }
 
         [Inject]
-        public void Construct()
+        public void Construct(DataManager dataManager)
         {
             // 도감 데이터 주입 받기
+            _dataManager = dataManager;
+            _fishDataList = _dataManager.GetPlayerData().CaughtFishes;
         }
 
         public override void Open()
         {
             _root.SetActive(true);
             _test.SetActive(true);
+
+            // 도감 목록 생성
+            // 이미 만들어져 있으면 생략
+
+            // 도감 목록에 있는 물고기에 대응하는 데이터를 삽입
+            for (int i = 0; i < _fishDataList.Count; i++)
+            {
+
+            }
+
+
         }
 
         protected override void OnClose()
