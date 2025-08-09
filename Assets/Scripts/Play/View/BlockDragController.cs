@@ -1,6 +1,6 @@
+using Cysharp.Threading.Tasks;
 using FishingBlast.AppScope;
 using FishingBlast.Data;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using VContainer;
 
@@ -15,25 +15,25 @@ namespace FishingBlast.Play
         private BlockBoard _blockBoard;
         private BlockBoardView _blockBoardView;
         private InputService _inputService;
-        private PlayPopupManager _playPopupManager;
+        private PopupManager _popupManager;
 
         private BlockView _draggingBlock;
 
         private bool _canDragging = false;
 
         [Inject]
-        public void Construct(BlockBoard blockBoard, BlockBoardView blockBoardView, BlockPlacementPreview placementPreview, InputService inputService, PlayPopupManager playPopupManager)
+        public void Construct(BlockBoard blockBoard, BlockBoardView blockBoardView, BlockPlacementPreview placementPreview, InputService inputService, PopupManager popupManager)
         {
             _blockBoard = blockBoard;
             _blockBoardView = blockBoardView;
             _placementPreview = placementPreview;
             _inputService = inputService;
-            _playPopupManager = playPopupManager;
+            _popupManager = popupManager;
         }
 
         private void Update()
         {
-            if (_playPopupManager.IsAnyPopupOpen)
+            if (_popupManager.IsAnyPopupOpen)
             {
                 _canDragging = false;
             }

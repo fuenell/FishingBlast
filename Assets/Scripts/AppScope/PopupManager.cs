@@ -1,13 +1,12 @@
-using FishingBlast.AppScope;
+using FishingBlast.UI;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using VContainer.Unity;
 
-namespace FishingBlast.Play
+namespace FishingBlast.AppScope
 {
-    public class PlayPopupManager : ITickable
+    public class PopupManager : ITickable, IDisposable
     {
         private readonly Dictionary<Type, BasePopup> _popups;
         private readonly InputService _inputService;
@@ -17,16 +16,26 @@ namespace FishingBlast.Play
         public bool IsAnyPopupOpen => _currentOpenPopup != null;
 
         // IReadOnlyList<T>로 받는 것을 권장
-        public PlayPopupManager(IReadOnlyList<BasePopup> popups, InputService inputService)
+        public PopupManager(InputService inputService)
         {
             _inputService = inputService;
-            _popups = popups.ToDictionary(p => p.GetType(), p => p);
+            //_popups = popups.ToDictionary(p => p.GetType(), p => p);
 
-            // 생성자에서 모든 팝업의 OnClosed 이벤트를 구독
-            foreach (var popup in popups)
-            {
-                popup.OnClosed += OnPopupClosedBySelf;
-            }
+            //// 생성자에서 모든 팝업의 OnClosed 이벤트를 구독
+            //foreach (var popup in popups)
+            //{
+            //    popup.Initialize();
+            //    popup.OnClosed += OnPopupClosedBySelf;
+            //}
+        }
+
+        public void Dispose()
+        {
+            //// 팝업의 OnClosed 이벤트 구독 해제
+            //foreach (var popup in _popups.Values)
+            //{
+            //    popup.OnClosed -= OnPopupClosedBySelf;
+            //}
         }
 
         // Todo: 추후 인풋매니저로 분리 후 이벤트 연결

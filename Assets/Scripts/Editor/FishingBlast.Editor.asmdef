@@ -1,7 +1,9 @@
 {
     "name": "FishingBlast.Editor",
     "rootNamespace": "FishingBlast.Editor",
-    "references": [],
+    "references": [
+        "GUID:8f31d061357e77346b61fb80e3258fc3"
+    ],
     "includePlatforms": [
         "Editor"
     ],

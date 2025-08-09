@@ -1,3 +1,5 @@
+using FishingBlast.AppScope;
+using FishingBlast.UI;
 using UnityEngine;
 using VContainer;
 
@@ -5,22 +7,22 @@ namespace FishingBlast.Play
 {
     public class PopupOpener : MonoBehaviour
     {
-        private PlayPopupManager _playPopupManager;
+        private PopupManager _popupManager;
 
         [Inject]
-        public void Construct(PlayPopupManager playPopupManager)
+        public void Construct(PopupManager popupManager)
         {
-            _playPopupManager = playPopupManager;
+            _popupManager = popupManager;
         }
 
         public void OpenSettingsPopup()
         {
-            _playPopupManager.Show<SettingsPopup>();
+            _popupManager.Show<SettingsPopup>();
         }
 
         public void OpenFishCollectionPopup()
         {
-            _playPopupManager.Show<FishCollectionPopup>();
+            _popupManager.Show<FishCollectionPopup>();
         }
     }
 }

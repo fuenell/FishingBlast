@@ -12,7 +12,7 @@ namespace FishingBlast.Data
         // --- Private Fields with [SerializeField] ---
         // 모든 데이터 필드를 private으로 선언하고 [SerializeField]를 붙여
         // 캡슐화와 직렬화를 동시에 만족시킵니다.
-        [SerializeField] private List<FishData> _caughtFishes = new List<FishData>();
+        [SerializeField] private List<PlayerFishRecord> _caughtFishes = new List<PlayerFishRecord>();
         [SerializeField] private int _highScore;
         [SerializeField] private int _nowScore;
         [SerializeField] private int[] _gameBoard;
@@ -20,7 +20,7 @@ namespace FishingBlast.Data
 
         // --- Public Read-only Properties ---
         // 외부에서는 이 프로퍼티들을 통해 데이터를 '읽기만' 할 수 있습니다.
-        public List<FishData> CaughtFishes => _caughtFishes;
+        public List<PlayerFishRecord> CaughtFishes => _caughtFishes;
         public int HighScore => _highScore;
         public int NowScore => _nowScore;
         public int[] GameBoard => _gameBoard;
@@ -95,7 +95,7 @@ namespace FishingBlast.Data
             }
             else
             {
-                _caughtFishes.Add(new FishData(fishId, 1, size));
+                _caughtFishes.Add(new PlayerFishRecord(fishId, 1, size));
             }
         }
     }

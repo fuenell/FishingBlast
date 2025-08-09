@@ -2,18 +2,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 
-namespace FishingBlast.Play
+namespace FishingBlast.UI
 {
     public class QuitPopup : BasePopup
     {
-        [SerializeField] GameObject _root;
-
         [SerializeField] Button _cancelButton;
         [SerializeField] Button _quitButton;
 
         private void Awake()
         {
-            _root.SetActive(false);
             _cancelButton.onClick.AddListener(Close);
             _quitButton.onClick.AddListener(Quit);
         }
@@ -32,16 +29,6 @@ namespace FishingBlast.Play
         private void Quit()
         {
             Application.Quit();
-        }
-
-        public override void Open()
-        {
-            _root.SetActive(true);
-        }
-
-        protected override void OnClose()
-        {
-            _root.SetActive(false);
         }
     }
 }

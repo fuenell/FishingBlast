@@ -4,7 +4,7 @@ using UnityEngine;
 namespace FishingBlast.Data
 {
     [Serializable]
-    public class FishData
+    public class PlayerFishRecord
     {
         [SerializeField] private int _id;
         [SerializeField] private int _count;
@@ -14,9 +14,9 @@ namespace FishingBlast.Data
         public int Count => _count;
         public float MaxSize => _maxSize;
 
-        public FishData() { }
+        public PlayerFishRecord() { }
 
-        public FishData(int id, int count, float size)
+        public PlayerFishRecord(int id, int count, float size)
         {
             _id = id;
             _count = count;
