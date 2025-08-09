@@ -1,11 +1,10 @@
 using AppScope.Core;
 using Cysharp.Threading.Tasks;
 using System;
-using UnityEngine;
 
 namespace Scene.Title
 {
-    public class TitleFlowController : IDisposable
+    public class TitleFlowController
     {
         private readonly SceneLoader _sceneLoader;
 
