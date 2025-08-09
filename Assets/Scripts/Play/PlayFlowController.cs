@@ -85,10 +85,10 @@ namespace Scene.Play
                 //// Todo: 불가능 시 패배 처리
                 if (_blockBoard.IsGameOver(_blockQueuePresenter.RemainBlockList))
                 {
-                    _dataManager.ResetGame();
-                    _dataManager.SaveData();
                     Debug.Log("Game Over");
                     isGameOver = true;
+                    _dataManager.ResetGame();
+                    _dataManager.SaveData().Forget();
                     break;
                 }
 
@@ -109,14 +109,14 @@ namespace Scene.Play
 
                         _dataManager.UpdateGame(_blockBoard.Grid, _blockQueuePresenter.RemainBlockList, _scoreManager.TotalScore);
                         _dataManager.AddNewFish(0, 1.0f);
-                        _dataManager.SaveData();
+                        _dataManager.SaveData().Forget();
 
                         await _blockBoardView.ClearMatches(matchedResult); // 이펙트 및 오브젝트 삭제
                     }
                     else
                     {
                         _dataManager.UpdateGame(_blockBoard.Grid, _blockQueuePresenter.RemainBlockList, _scoreManager.TotalScore);
-                        _dataManager.SaveData();
+                        _dataManager.SaveData().Forget();
                     }
 
                 }

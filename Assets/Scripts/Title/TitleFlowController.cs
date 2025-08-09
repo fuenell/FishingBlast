@@ -16,11 +16,6 @@ namespace Scene.Title
             _sceneLoader = sceneLoader;
         }
 
-        public void Dispose()
-        {
-            Debug.Log("TitleFlowController 삭제됨");
-        }
-
         public async UniTaskVoid OnClickStartButton()
         {
             if (_isNavigating)
